@@ -2,7 +2,7 @@
 **_A dump of random tools, helpers, templates and other stuff that I made and use very often._**
 
 ## 📜 Description 📜
-A dump of random stuff that I've either made or am working, this will be the main place for modders or anyone else interested in some cool stuff.
+A dump of random stuff that I've either made or am working on, this will be the go-to for modders or anyone else interested in some cool tools, libraries and more.
 </br>
 </br>
 **It still is a growing dump, I have some very WIP stuff that is still not here.**
