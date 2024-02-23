@@ -1,0 +1,4 @@
+[submodule "DiEventLib"]
+    path = Libraries/Sonic/Sonic Frontiers
+    url = https://github.com/Ashrindy/DiEventLib.git
+    branch = refactor
