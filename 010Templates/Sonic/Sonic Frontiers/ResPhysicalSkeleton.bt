@@ -1,0 +1,49 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.0.1
+//   Purpose: 
+//  Category: 
+// File Mask: .pba
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local uint64 dataPos;
+
+typedef struct{
+    uint32 Unk1[4];
+    uint64 Offset;
+    local uint64 PrePos = FTell();
+    FSeek(Offset);
+    float Unk2;
+    FSeek(PrePos);
+    uint32 Unk3[2];
+    uint64 Offset2;
+    local uint64 PrePos2 = FTell();
+    FSeek(Offset2-1);
+    float Unk4;
+    FSeek(PrePos2);
+    uint32 Unk5;
+    float Unk6[5];
+}
+UnkStruct<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+	char signature[4]<name="Signature">;
+	int version <format=hex, name="Version">;
+    uint32 Count;
+    uint32 Padding;
+    uint32 Count2;
+    uint32 Padding2[3];
+    UnkStruct Content[Count2];
+}
+ResPhysicalSkeleton<open=true>;
+
+ResBinaryFile file("ResPhysicalSkeleton")<name=Str("%s", FileNameGetBase(GetFileName()))>;
