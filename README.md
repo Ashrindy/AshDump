@@ -17,7 +17,7 @@ I use 010 editor quite often when discovering and cracking file formats, meaning
 |     **Sonic Frontiers**     | ResEffectDatabase | For easy reading of the .effdb files that contain effect names based on the animation | Used ik-01's ResBinaryFile.h |
 
 ## Libraries
-Most of the libraries are in C# but sometimes it is in another language
+Most of the libraries are in C# but sometimes it is in another language, these will eventually be used to make a proper tool to make a good use of the said libraries.
 ### Sonic Series
 |                      Game/Project                       |   Library Name   | Use | Language |
 | :---------------------------------------------: | :------:| :------:| :------:|
