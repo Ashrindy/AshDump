@@ -1,0 +1,33 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.nmt
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+typedef struct{
+    SetRandomBackColor();
+	char signature[4]<name="Signature">;
+	int version <format=hex, name="Version">;
+    Vector2 Position;
+    uint32 padding;
+    uint32 Unk1;
+    float Unk2;
+    uint32 Unk3[6];
+    uint32 Count;
+    uint32 Unk4[7];
+    Vector3 UnkVec;
+    Vector3 Points[Count+2];
+}
+ResNavMeshConfig<open=true>;
+
+ResNavMeshConfig Data;
