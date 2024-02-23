@@ -51,6 +51,6 @@ typedef struct{
     uint64 padding;
 	State States[Count]<name="States">;
 }
-ResEffectDatabase<open=true>;
+ResParticleLocation<open=true>;
 
-ResBinaryFile file("ResEffectDatabase")<name=Str("%s", FileNameGetBase(GetFileName()))>;
+ResBinaryFile file("ResParticleLocation")<name=Str("%s", FileNameGetBase(GetFileName()))>;
