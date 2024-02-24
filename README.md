@@ -16,6 +16,7 @@ I use 010 editor quite often when discovering and cracking file formats, meaning
 | :------:| :------:| :------:|
 | **Template Name** | **Info** | **Credits** |
 | ResAIStateMachine | For easy reading of the .aism files | Used ik-01's ResBinaryFile.h |
+| ResDensitySetting | For easy reading of the .densitysetting files, though there's alot weird and unknown values that are hard to decypher | Used ik-01's ResBinaryFile.h |
 | ResNavMeshConfig | For easy reading of the .nmc files | |
 | ResNavMeshTile | For easy reading of the .nmt files, only a bit of data has been documented | |
 | ResParticleLocation | For easy reading of the .effdb files that contain effect names based on the animation | Used ik-01's ResBinaryFile.h |
