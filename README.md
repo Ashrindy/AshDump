@@ -1,4 +1,8 @@
 # `AshDump`
+
+[![release](https://img.shields.io/github/v/release/Ashrindy/sonic-genesis?color=red)](https://github.com/Ashrindy/ongaku/releases/latest)
+[![downloads](https://img.shields.io/github/downloads/Ashrindy/ongaku/total?color=green)](#)
+
 **_A dump of random tools, helpers, templates and other stuff that I made and use very often._**
 
 ## 📜 Description 📜
