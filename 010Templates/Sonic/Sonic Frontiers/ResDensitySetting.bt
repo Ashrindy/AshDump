@@ -1,0 +1,53 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.densitysetting
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local uint64 dataPos;
+
+typedef struct{
+    SetRandomBackColor();
+    StringOffset test;
+    uint64 unk1;
+}DensityStr<optimize=false, read=Str("%s",  ReadString(dataPos + test.off))>;
+
+typedef struct{
+    SetRandomBackColor();
+    uint64 Offset;
+    local uint64 PrePos<hidden=true> = FTell();
+    FSeek(Offset+dataPos);
+    StringOffset Unk1;
+    FSeek(PrePos);
+    uint64 Unk2;
+}UnkStr<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+	char signature[4]<name="Signature">;
+	int version <format=hex, name="Version">;
+    Vector2 WorldSize;
+    uint32 padding;
+    uint32 Count;
+    uint32 padding2[32];
+    float padding3[32];
+    StringOffset AreaMap;
+    StringOffset LayerMap;
+    StringOffset ColorMap;
+    StringOffset ScaleMap;
+    UnkStr Unk[60];
+    DensityStr Density[Count];
+}
+ResDensitySetting<open=true>;
+
+ResBinaryFile file("ResDensitySetting")<name=Str("%s", FileNameGetBase(GetFileName()))>;

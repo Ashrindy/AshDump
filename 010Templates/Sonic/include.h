@@ -22,6 +22,10 @@ void GetStruct (string structName)
 			struct ResAIStateMachine resAIStateMachine <name="ResAIStateMachine">;
 			break;
 		
+		case "ResDensitySetting":
+			struct ResDensitySetting resDensitySetting <name="ResDensitySetting">;
+			break;
+		
 		default:
 			break;
 	}
