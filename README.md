@@ -37,5 +37,6 @@ Like said above, these tools utilize the knowledge and code from the libraries.
 ### Sonic Series
 |  | **Sonic Frontiers** |  |
 | :------:| :------:| :------:|
-|   **Tool Name**   | **Use** | **Language** |
+|   **Tool Name**   | **Info** | **Language** |
 | DvScene PreRendered to Realtime | Used for easy converting from prerendered cutscenes to realtime, by moving the subtitles, letterbox and more. | C# |
+| HeightField Tool | Used for easy converting the .heightfield format to a generic image file and vice-versa, it still isn't perfect as the terrain gets blocky | C# |
