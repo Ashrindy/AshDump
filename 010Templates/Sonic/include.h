@@ -26,6 +26,14 @@ void GetStruct (string structName)
 			struct ResDensitySetting resDensitySetting <name="ResDensitySetting">;
 			break;
 		
+		case "ResTerrainMaterial":
+			struct ResTerrainMaterial resTerrainMaterial <name="ResTerrainMaterial">;
+			break;
+		
+		case "ResFxColFile":
+			struct ResFxColFile resFxColFile <name="ResFxColFile">;
+			break;
+		
 		default:
 			break;
 	}

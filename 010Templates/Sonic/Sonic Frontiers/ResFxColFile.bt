@@ -1,0 +1,26 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.fxcol
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local uint64 dataPos;
+
+typedef struct{
+    SetRandomBackColor();
+	char signature[4]<name="Signature">;
+	int version <format=hex, name="Version">;
+}
+ResFxColFile<open=true>;
+
+ResBinaryFile file("ResFxColFile")<name=Str("%s", FileNameGetBase(GetFileName()))>;
