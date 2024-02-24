@@ -17,10 +17,12 @@ I use 010 editor quite often when discovering and cracking file formats, meaning
 | **Template Name** | **Info** | **Credits** |
 | ResAIStateMachine | For easy reading of the .aism files | Used ik-01's ResBinaryFile.h |
 | ResDensitySetting | For easy reading of the .densitysetting files, though there's alot of weird and unknown values that are hard to decypher | Used ik-01's ResBinaryFile.h |
+| ResFxColFile | For easy reading of the .fxcol files, it's empty for now | Used ik-01's ResBinaryFile.h |
 | ResNavMeshConfig | For easy reading of the .nmc files | |
 | ResNavMeshTile | For easy reading of the .nmt files, only a bit of data has been documented | |
 | ResParticleLocation | For easy reading of the .effdb files that contain effect names based on the animation | Used ik-01's ResBinaryFile.h |
 | ResPhysicsSkeleton | For easy reading of the .pba files, not much is currently known | Used ik-01's ResBinaryFile.h |
+| ResTerrainMaterial | For easy reading of the .terrain-material files | Used ik-01's ResBinaryFile.h |
 
 ## Libraries
 Most of the libraries are in C# but sometimes it is in another language, these will eventually be used to make a proper tool to make a good use of said libraries.
