@@ -2,3 +2,6 @@
 	path = Libraries/Sonic/Sonic Frontiers/DiEventLib
 	url = https://github.com/Ashrindy/DiEventLib
 	branch = refactor
+[submodule "Tools/Sonic/Sonic Frontiers/HeightFieldTool"]
+	path = Tools/Sonic/Sonic Frontiers/HeightFieldTool
+	url = https://github.com/Ashrindy/HeightFieldTool
