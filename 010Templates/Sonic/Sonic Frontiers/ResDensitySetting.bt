@@ -71,7 +71,7 @@ typedef struct{
 typedef struct{
     SetRandomBackColor();
     StringOffset name;
-    uint32 data2;
+    uint32 ID;
     uint32 data3;
     float data4;
     float data5;
