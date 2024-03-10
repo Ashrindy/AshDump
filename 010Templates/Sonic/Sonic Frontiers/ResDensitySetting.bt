@@ -19,7 +19,8 @@ local uint64 dataPos;
 typedef struct{
     SetRandomBackColor();
     StringOffset test;
-    uint64 unk1;
+    uint32 unk1;
+    uint32 unk2;
 }DensityStr<optimize=false, read=Str("%s",  ReadString(dataPos + test.off))>;
 
 typedef struct{
@@ -34,6 +35,72 @@ typedef struct{
 
 typedef struct{
     SetRandomBackColor();
+    short data[4];
+    uint32 data1[4];
+    uint32 data2[2];
+    float data3[8];
+}UnkData<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    uint32 data;
+    float data1;
+    uint32 data2;
+    uint32 data3;
+}UnkData2<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    uint32 data;
+    uint32 data1;
+    uint32 data2;
+    uint32 data3;
+}UnkData3<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    uint32 data;
+    uint32 data1;
+    uint32 data2;
+    uint32 data3;
+    float data4;
+    float data5;
+    float data6;
+    uint64 test;
+    uint32 data9;
+    uint32 data10;
+    uint32 data11;
+}UnkData4<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    StringOffset name;
+    uint32 data2;
+    uint32 data3;
+    float data4;
+    float data5;
+}IDItem<optimize=false, read=Str("%s",  ReadString(dataPos + name.off))>;
+
+typedef struct{
+    SetRandomBackColor();
+    float data[2];
+    uint32 data1[4];
+    float data2[2];
+    uint32 data3[2];
+    float data4;
+    float data5;
+    float data6[2];
+    ushort data7[4];
+    uint32 data8;
+}UnkData6<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    StringOffset name;
+}CollisionItem<optimize=false, read=Str("%s",  ReadString(dataPos + name.off))>;
+
+typedef struct{
+    SetRandomBackColor();
 	char signature[4]<name="Signature">;
 	int version <format=hex, name="Version">;
     Vector2 WorldSize;
@@ -45,8 +112,25 @@ typedef struct{
     StringOffset LayerMap;
     StringOffset ColorMap;
     StringOffset ScaleMap;
-    UnkStr Unk[60];
-    DensityStr Density[Count];
+    UnkStr Unk[15];
+    FSeek(Unk[0].Offset + dataPos);
+    DensityStr Density[Unk[0].Unk2];
+    FSeek(Unk[1].Offset + dataPos);
+    UnkData Unk3[Unk[1].Unk2];
+    FSeek(Unk[2].Offset + dataPos);
+    UnkData2 Unk4[Unk[2].Unk2];
+    FSeek(Unk[3].Offset + dataPos);
+    UnkData3 Unk5[Unk[3].Unk2];
+    FSeek(Unk[4].Offset + dataPos);
+    UnkData4 Unk6[Unk[4].Unk2];
+    FSeek(Unk[5].Offset + dataPos);
+    IDItem IDList[Unk[5].Unk2];
+    FSeek(Unk[6].Offset + dataPos);
+    UnkData6 Unk7[Unk[6].Unk2];
+    FSeek(Unk[7].Offset + dataPos);
+    CollisionItem CollisionData[Unk[7].Unk2];
+    FSeek(Unk[8].Offset + dataPos);
+    uint32 Unk8[Unk[8].Unk2];
 }
 ResDensitySetting<open=true>;
 
