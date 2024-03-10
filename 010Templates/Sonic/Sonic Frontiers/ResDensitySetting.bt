@@ -25,13 +25,9 @@ typedef struct{
 
 typedef struct{
     SetRandomBackColor();
-    uint64 Offset;
-    local uint64 PrePos<hidden=true> = FTell();
-    FSeek(Offset+dataPos);
-    StringOffset Unk1;
-    FSeek(PrePos);
-    uint64 Unk2;
-}UnkStr<optimize=false>;
+    uint64 StartOffset;
+    uint64 Amount;
+}Info<optimize=false>;
 
 typedef struct{
     SetRandomBackColor();
@@ -112,25 +108,25 @@ typedef struct{
     StringOffset LayerMap;
     StringOffset ColorMap;
     StringOffset ScaleMap;
-    UnkStr Unk[15];
-    FSeek(Unk[0].Offset + dataPos);
-    DensityStr Density[Unk[0].Unk2];
-    FSeek(Unk[1].Offset + dataPos);
-    UnkData Unk3[Unk[1].Unk2];
-    FSeek(Unk[2].Offset + dataPos);
-    UnkData2 Unk4[Unk[2].Unk2];
-    FSeek(Unk[3].Offset + dataPos);
-    UnkData3 Unk5[Unk[3].Unk2];
-    FSeek(Unk[4].Offset + dataPos);
-    UnkData4 Unk6[Unk[4].Unk2];
-    FSeek(Unk[5].Offset + dataPos);
-    IDItem IDList[Unk[5].Unk2];
-    FSeek(Unk[6].Offset + dataPos);
-    UnkData6 Unk7[Unk[6].Unk2];
-    FSeek(Unk[7].Offset + dataPos);
-    CollisionItem CollisionData[Unk[7].Unk2];
-    FSeek(Unk[8].Offset + dataPos);
-    uint32 Unk8[Unk[8].Unk2];
+    Info OffsetInfo[15];
+    FSeek(OffsetInfo[0].StartOffset + dataPos);
+    DensityStr Density[OffsetInfo[0].Amount];
+    FSeek(OffsetInfo[1].StartOffset + dataPos);
+    UnkData Unk3[OffsetInfo[1].Amount];
+    FSeek(OffsetInfo[2].StartOffset + dataPos);
+    UnkData2 Unk4[OffsetInfo[2].Amount];
+    FSeek(OffsetInfo[3].StartOffset + dataPos);
+    UnkData3 Unk5[OffsetInfo[3].Amount];
+    FSeek(OffsetInfo[4].StartOffset + dataPos);
+    UnkData4 Unk6[OffsetInfo[4].Amount];
+    FSeek(OffsetInfo[5].StartOffset + dataPos);
+    IDItem IDList[OffsetInfo[5].Amount];
+    FSeek(OffsetInfo[6].StartOffset + dataPos);
+    UnkData6 Unk7[OffsetInfo[6].Amount];
+    FSeek(OffsetInfo[7].StartOffset + dataPos);
+    CollisionItem CollisionData[OffsetInfo[7].Amount];
+    FSeek(OffsetInfo[8].StartOffset + dataPos);
+    uint32 Unk8[OffsetInfo[8].Amount];
 }
 ResDensitySetting<open=true>;
 
