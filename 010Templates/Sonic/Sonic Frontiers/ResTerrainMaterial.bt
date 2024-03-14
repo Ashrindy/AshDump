@@ -19,13 +19,14 @@ local uint64 dataPos;
 typedef struct{
     SetRandomBackColor();
     StringOffset MatName;
-    uint32 Unk1[4];
+    uint32 ID;
+    uint32 Unk1[3];
     StringOffset DetailAbd;
     StringOffset DetailNrm;
     StringOffset DetailHgt;
     StringOffset Abd;
     StringOffset Nrm;
-    StringOffset Hgt;
+    StringOffset Prm;
 }Material<optimize=false, read=ReadString(dataPos + MatName.off)>;
 
 typedef struct{
