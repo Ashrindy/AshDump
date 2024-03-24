@@ -39,11 +39,11 @@ typedef struct{
 
 typedef struct{
     SetRandomBackColor();
-    uint32 data;
-    float data1;
+    uint32 ModelIndex;
+    float FadeOut;
     uint32 data2;
     uint32 data3;
-}UnkData2<optimize=false>;
+}LODInfo<optimize=false>;
 
 typedef struct{
     SetRandomBackColor();
@@ -114,7 +114,7 @@ typedef struct{
     FSeek(OffsetInfo[1].StartOffset + dataPos);
     UnkData Unk3[OffsetInfo[1].Amount];
     FSeek(OffsetInfo[2].StartOffset + dataPos);
-    UnkData2 Unk4[OffsetInfo[2].Amount];
+    LODInfo LODData[OffsetInfo[2].Amount];
     FSeek(OffsetInfo[3].StartOffset + dataPos);
     UnkData3 Unk5[OffsetInfo[3].Amount];
     FSeek(OffsetInfo[4].StartOffset + dataPos);
