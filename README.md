@@ -30,7 +30,7 @@ I use 010 editor quite often when discovering and cracking file formats, meaning
 |   ResNavMeshTile    |                              For easy reading of the .nmt files, only a bit of data has been documented                              |                              |
 | ResParticleLocation |                        For easy reading of the .effdb files that contain effect names based on the animation                         | Used ik-01's ResBinaryFile.h |
 | ResPhysicsSkeleton  |                                   For easy reading of the .pba files, not much is currently known                                    | Used ik-01's ResBinaryFile.h |
-|    ResShaderList    | For easy reading of the .shader-list files, not much is currently known, it's still a bit buggy. Being used for research on shaders. | Used ik-01's ResBinaryFile.h |
+|    ResShaderList    | For easy reading of the .shader-list files, not much is currently known, it's still a bit buggy. Being used for research on shaders. |                              |
 | ResTerrainMaterial  |                                           For easy reading of the .terrain-material files                                            | Used ik-01's ResBinaryFile.h |
 
 ## Libraries
