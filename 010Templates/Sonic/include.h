@@ -33,6 +33,10 @@ void GetStruct (string structName)
 		case "ResFxColFile":
 			struct ResFxColFile resFxColFile <name="ResFxColFile">;
 			break;
+
+		case "ResShaderList":
+			struct ResShaderList resShaderList <name="ResShaderList">;
+			break;
 		
 		default:
 			break;
