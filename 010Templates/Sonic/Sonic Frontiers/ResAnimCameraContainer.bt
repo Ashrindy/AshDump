@@ -1,0 +1,124 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.cam-anim
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local int32 RELATIVE_OFFSET = 0x18;
+local int32 STRING_TABLE_OFFSET = 0;
+
+typedef struct{
+	SetRandomBackColor();
+	float X, Y, Z;
+}FloatVector3<optimize=false, read=Str("(%f, %f, %f)", X, Y, Z)>;
+
+typedef struct{
+	SetRandomBackColor();
+	byte type;
+	byte padding[3]<hidden=true>;
+	uint32 Length;
+	uint32 IndexStart;
+}CameraFrameInfo<optimize=false, read=Str("Type: %1.0f, Length: %1.0f, IndexStart: %1.0f", type, Length, IndexStart)>;
+
+typedef struct{
+	SetRandomBackColor();
+	uint32 offset<hidden=true>;
+	local uint32 PrePos<hidden=true> = FTell();
+	FSeek(offset + RELATIVE_OFFSET);
+	uint32 CameraNameOffset <read=ReadString(this+STRING_TABLE_OFFSET)>;
+	byte rotOrAnim;
+	byte padding[3]<hidden=true>;
+	float FPS;
+	float FrameStart;
+	float FrameEnd;
+	uint32 FrameInfoCount;
+	FloatVector3 Position;
+	FloatVector3 Rotation;
+	FloatVector3 PositionAim;
+	float Twist;
+	float ZNear;
+	float ZFar;
+	float FOV;
+	float AspectRatio;
+	CameraFrameInfo FrameInfo[FrameInfoCount];
+	FSeek(PrePos);
+}Camera<optimize=false, read=Str("%s -- Frame Length: %1.0f - %1.0f", ReadString(CameraNameOffset+STRING_TABLE_OFFSET), FrameStart, FrameEnd)>;
+
+typedef struct{
+	SetRandomBackColor();
+	float frame;
+	float value;
+}
+Keyframe<optimize=false, read=Str("Frame: %1.0f, Value: %f", frame, value)>;
+
+typedef struct{
+	SetRandomBackColor();
+	uint32 Count;
+	Camera Cameras[Count];
+}
+AnimCameraContainer;
+
+typedef struct{
+	SetRandomBackColor();
+	uint32 Ptr <hidden=true>;
+	local uint32 PrePos<hidden=true> = FTell();
+	FSeek(Ptr + RELATIVE_OFFSET);
+	AnimCameraContainer data;
+	FSeek(PrePos);
+}
+AnimCameraContainerPtr;
+
+typedef struct{
+	SetRandomBackColor();
+	AnimCameraContainerPtr animCameraContainerPtr<name = "AnimCameraContainerPtr">;
+	uint32 AnimCameraContainerSize;
+	uint32 KeyFramesPtr;
+	uint32 KeyFramesSize;
+	local int KeyFramesCount = KeyFramesSize/8;
+    local uint32 j<hidden=true> = FTell();
+    FSeek(KeyFramesPtr+RELATIVE_OFFSET);
+    Keyframe KeyFrames[KeyFramesCount];
+    FSeek(j);
+	uint32 StringPtr;
+	STRING_TABLE_OFFSET = RELATIVE_OFFSET + StringPtr;
+	uint32 StringSize;
+	FSeek(STRING_TABLE_OFFSET);
+	char StringTable[StringSize];
+}
+MirageAnimation;
+
+typedef struct{
+	SetRandomBackColor();
+	uint32 Ptr <hidden=true>;;
+	local uint32 PrePos<hidden=true> = FTell();
+	FSeek(Ptr);
+	MirageAnimation data;
+	FSeek(PrePos);
+}
+MirageAnimationPtr;
+
+typedef struct{
+    SetRandomBackColor();
+	int FileSize;
+	int Version;
+	int DataSize;
+	MirageAnimationPtr Data;
+	uint32 Ptr <hidden=true>;;
+	FSeek(Ptr);
+	uint32 OffsetCount;
+	uint32 Offsets[OffsetCount];
+}
+ResAnimCameraContainer<open=true>;
+
+BigEndian();
+ResAnimCameraContainer File;
