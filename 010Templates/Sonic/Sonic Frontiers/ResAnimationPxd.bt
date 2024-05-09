@@ -6,7 +6,7 @@
 //   Version: 0.1.0
 //   Purpose: 
 //  Category: 
-// File Mask: *.fxcol
+// File Mask: *.anm.pxd
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
@@ -20,7 +20,12 @@ typedef struct{
     SetRandomBackColor();
 	char signature[4]<name="Signature">;
 	int version <format=hex, name="Version">;
+    uint32 Count;
+    uint32 padding;
+    uint64 padding1;
+    float unk1;
+    uint32 unk2;
 }
-ResFxColFile<open=true>;
+ResAnimationPxd<open=true>;
 
-ResBinaryFile file("ResFxColFile")<name=Str("%s", FileNameGetBase(GetFileName()))>;
+ResBinaryFile file("ResAnimationPxd")<name=Str("%s", FileNameGetBase(GetFileName()))>;

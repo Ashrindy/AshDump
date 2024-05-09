@@ -29,13 +29,13 @@ void GetStruct (string structName)
 		case "ResTerrainMaterial":
 			struct ResTerrainMaterial resTerrainMaterial <name="ResTerrainMaterial">;
 			break;
-		
-		case "ResFxColFile":
-			struct ResFxColFile resFxColFile <name="ResFxColFile">;
-			break;
 
 		case "ResShaderList":
 			struct ResShaderList resShaderList <name="ResShaderList">;
+			break;
+
+		case "ResAnimationPxd":
+			struct ResAnimationPxd resAnimationPxd <name="ResAnimationPxd">;
 			break;
 		
 		default:
