@@ -20,18 +20,19 @@ I use 010 editor quite often when discovering and cracking file formats, meaning
 
 ### Sonic Series
 
-|                     |                                                         **Sonic Frontiers**                                                          |                                          |
-| :-----------------: | :----------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------: |
-|  **Template Name**  |                                                               **Info**                                                               |               **Credits**                |
-|  ResAIStateMachine  |                                                 For easy reading of the .aism files                                                  |       Used ik-01's ResBinaryFile.h       |
-|     ResAnimVis      |                                               For easy reading of the .vis-anim files                                                | Used ik-01's research on ResAnimMaterial |
-|  ResDensitySetting  |                         For easy reading of the .densitysetting files, though there's alot of unknown values                         |       Used ik-01's ResBinaryFile.h       |
-|  ResNavMeshConfig   |                                                  For easy reading of the .nmc files                                                  |                                          |
-|   ResNavMeshTile    |                              For easy reading of the .nmt files, only a bit of data has been documented                              |                                          |
-| ResParticleLocation |                        For easy reading of the .effdb files that contain effect names based on the animation                         |       Used ik-01's ResBinaryFile.h       |
-| ResPhysicsSkeleton  |                                   For easy reading of the .pba files, not much is currently known                                    |       Used ik-01's ResBinaryFile.h       |
-|    ResShaderList    | For easy reading of the .shader-list files, not much is currently known, it's still a bit buggy. Being used for research on shaders. |       Used ik-01's ResBinaryFile.h       |
-| ResTerrainMaterial  |                                           For easy reading of the .terrain-material files                                            |       Used ik-01's ResBinaryFile.h       |
+|                        |                                                         **Sonic Frontiers**                                                          |                                          |
+| :--------------------: | :----------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------: |
+|   **Template Name**    |                                                               **Info**                                                               |               **Credits**                |
+|   ResAIStateMachine    |                                                 For easy reading of the .aism files                                                  |       Used ik-01's ResBinaryFile.h       |
+|       ResAnimVis       |                                               For easy reading of the .vis-anim files                                                | Used ik-01's research on ResAnimMaterial |
+| ResAnimCameraContainer |                                               For easy reading of the .cam-anim files                                                |    Used Kwas's research on cam-anim's    |
+|   ResDensitySetting    |                         For easy reading of the .densitysetting files, though there's alot of unknown values                         |       Used ik-01's ResBinaryFile.h       |
+|    ResNavMeshConfig    |                                                  For easy reading of the .nmc files                                                  |                                          |
+|     ResNavMeshTile     |                              For easy reading of the .nmt files, only a bit of data has been documented                              |                                          |
+|  ResParticleLocation   |                        For easy reading of the .effdb files that contain effect names based on the animation                         |       Used ik-01's ResBinaryFile.h       |
+|   ResPhysicsSkeleton   |                                   For easy reading of the .pba files, not much is currently known                                    |       Used ik-01's ResBinaryFile.h       |
+|     ResShaderList      | For easy reading of the .shader-list files, not much is currently known, it's still a bit buggy. Being used for research on shaders. |       Used ik-01's ResBinaryFile.h       |
+|   ResTerrainMaterial   |                                           For easy reading of the .terrain-material files                                            |       Used ik-01's ResBinaryFile.h       |
 
 ## Libraries
 
