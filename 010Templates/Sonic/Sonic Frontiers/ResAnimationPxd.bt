@@ -24,7 +24,7 @@ typedef struct{
     uint32 padding;
     uint64 padding1;
     float unk1;
-    uint32 unk2;
+    uint32 FrameLength;
 }
 ResAnimationPxd<open=true>;
 
