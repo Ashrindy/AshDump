@@ -6,7 +6,7 @@
 //   Version: 0.1.0
 //   Purpose: 
 //  Category: 
-// File Mask: *.vis-anim
+// File Mask: *.uv-anim
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
@@ -19,56 +19,61 @@ local int32 STRING_TABLE_OFFSET = 0;
 
 typedef struct{
 	SetRandomBackColor();
+	float X, Y, Z;
+}FloatVector3<optimize=false, read=Str("(%f, %f, %f)", X, Y, Z)>;
+
+typedef struct{
+	SetRandomBackColor();
 	byte type;
 	byte padding[3]<hidden=true>;
 	uint32 Length;
 	uint32 IndexStart;
-}FrameInfo<optimize=false, read=Str("Type: %1.0f, Length: %1.0f, IndexStart: %1.0f", type, Length, IndexStart)>;
+}UvFrameInfo<optimize=false, read=Str("Type: %1.0f, Length: %1.0f, IndexStart: %1.0f", type, Length, IndexStart)>;
 
 typedef struct{
 	SetRandomBackColor();
 	uint32 offset<hidden=true>;
 	local uint32 PrePos<hidden=true> = FTell();
 	FSeek(offset + RELATIVE_OFFSET);
-	uint32 BoneNameOffset <read=ReadString(this+STRING_TABLE_OFFSET)>;
+	uint32 UvAnimNameOffset <read=ReadString(this+STRING_TABLE_OFFSET)>;
 	float FPS;
 	float FrameStart;
 	float FrameEnd;
 	uint32 FrameInfoCount;
-	FrameInfo FrameInfos[FrameInfoCount];
+	UvFrameInfo FrameInfos[FrameInfoCount];
 	FSeek(PrePos);
-}Bone<optimize=false, read=ReadString(BoneNameOffset+STRING_TABLE_OFFSET)>;
+}UvAnim<optimize=false, read=Str("%s -- Frame Length: %1.0f - %1.0f", ReadString(UvAnimNameOffset+STRING_TABLE_OFFSET), FrameStart, FrameEnd)>;
 
 typedef struct{
 	SetRandomBackColor();
 	float frame;
 	float value;
 }
-Keyframe<optimize=false, read=Str("Frame: %1.0f, Value: %1.0f", frame, value)>;
+Keyframe<optimize=false, read=Str("Frame: %1.0f, Value: %f", frame, value)>;
 
 typedef struct{
 	SetRandomBackColor();
-	uint32 ModelNameOffset <read=ReadString(this+STRING_TABLE_OFFSET)>;
-	uint32 InputNameOffset <read=ReadString(this+STRING_TABLE_OFFSET)>;
+	uint32 MatNameOffset <read=ReadString(this+STRING_TABLE_OFFSET)>;
+	uint32 TexNameOffset <read=ReadString(this+STRING_TABLE_OFFSET)>;
 	uint32 Count;
-	Bone Bones[Count];
+	UvAnim UvAnims[Count];
 }
-AnimVis;
+AnimTexSrt;
 
 typedef struct{
 	SetRandomBackColor();
 	uint32 Ptr <hidden=true>;
 	local uint32 PrePos<hidden=true> = FTell();
 	FSeek(Ptr + RELATIVE_OFFSET);
-	AnimVis data;
+	AnimTexSrt data;
 	FSeek(PrePos);
 }
-AnimVisPtr;
+AnimTexSrtPtr;
 
 typedef struct{
 	SetRandomBackColor();
-	AnimVisPtr animVisPtr<name = "AnimVisPtr">;
-	uint32 AnimVisSize;
+	AnimTexSrtPtr animTexSrtPtr<name = "AnimTexSrtPtr">;
+	uint32 AnimTexSrtSize;
 	uint32 KeyFramesPtr;
 	uint32 KeyFramesSize;
 	local int KeyFramesCount = KeyFramesSize/8;
@@ -79,6 +84,8 @@ typedef struct{
 	uint32 StringPtr;
 	STRING_TABLE_OFFSET = RELATIVE_OFFSET + StringPtr;
 	uint32 StringSize;
+	FSeek(STRING_TABLE_OFFSET);
+	char StringTable[StringSize];
 }
 MirageAnimation;
 
@@ -103,7 +110,7 @@ typedef struct{
 	uint32 OffsetCount;
 	uint32 Offsets[OffsetCount];
 }
-ResAnimVis<open=true>;
+ResAnimTexSrt<open=true>;
 
 BigEndian();
-ResAnimVis File;
+ResAnimTexSrt File;
