@@ -27,7 +27,13 @@ typedef struct
         local uint64 PrePos = FTell();
         FSeek(Offset);
         StringOffset BoneName;
-        float unk1[8];
+        float unk1[2];
+        float unk6;
+        float unk10;
+        float unk7;
+        uint32 unk11;
+        float unk12;
+        float unk13;
         uint32 unk2;
         Vector2 unkvec1;
         Vector2 unkvec2;
