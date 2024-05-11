@@ -25,6 +25,7 @@ I use 010 editor quite often when discovering and cracking file formats, meaning
 |   **Template Name**    |                                                               **Info**                                                               |               **Credits**                |
 |   ResAIStateMachine    |                                                 For easy reading of the .aism files                                                  |       Used ik-01's ResBinaryFile.h       |
 | ResAnimCameraContainer |                                               For easy reading of the .cam-anim files                                                |    Used Kwas's research on cam-anim's    |
+|     ResAnimTexPat      |                             For easy reading of the .pt-anim files, though there are two unknown values                              | Used ik-01's research on ResAnimMaterial |
 |     ResAnimTexSrt      |                                                For easy reading of the .uv-anim files                                                |    Used Kwas's research on uv-anim's     |
 |       ResAnimVis       |                                               For easy reading of the .vis-anim files                                                | Used ik-01's research on ResAnimMaterial |
 |   ResDensitySetting    |                         For easy reading of the .densitysetting files, though there's alot of unknown values                         |       Used ik-01's ResBinaryFile.h       |
