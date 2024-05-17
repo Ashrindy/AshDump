@@ -56,6 +56,7 @@ Like said above, these tools utilize the knowledge and code from the libraries.
 |                                 |                                                            **Sonic Frontiers**                                                             |              |
 | :-----------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
 |          **Tool Name**          |                                                                  **Info**                                                                  | **Language** |
+| DvScene Element Frame Offseter  |                           Used for simple offseting Frame Start and End for every element located in a cutscene                            |      C#      |
 | DvScene PreRendered to Realtime |               Used for easy converting from prerendered cutscenes to realtime, by moving the subtitles, letterbox and more.                |      C#      |
 |        DvScene Mute BGM         |                                     Used for muting BGM in cutscenes, seems to only work with bosses.                                      |      C#      |
 |        HeightField Tool         | Used for easy converting the .heightfield format to a generic image file and vice-versa, it still isn't perfect as the terrain gets blocky |      C#      |
