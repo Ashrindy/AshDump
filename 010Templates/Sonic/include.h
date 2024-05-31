@@ -29,6 +29,10 @@ void GetStruct (string structName)
 		case "ResTerrainMaterial":
 			struct ResTerrainMaterial resTerrainMaterial <name="ResTerrainMaterial">;
 			break;
+			
+		case "ResMasterLevel":
+			struct ResMasterLevel resMasterLevel <name="ResMasterLevel">;
+			break;
 
 		case "ResShaderList":
 			struct ResShaderList resShaderList <name="ResShaderList">;

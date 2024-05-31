@@ -1,0 +1,165 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.material
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local int32 RELATIVE_OFFSET = 0x10;
+local int32 PARAMETER_COUNT = 0;
+local int32 TEXTURE_COUNT = 0;
+local int32 VARIABLE_COUNT = 0;
+local int32 TEXSET_POINTER = 0;
+local int32 TEXTURES_POINTER = 0;
+
+typedef struct{
+	SetRandomBackColor();
+	float x;
+	float y;
+	float z;
+	float w;
+}Vector4f<read=Str("%1.0f, %1.0f, %1.0f, %1.0f", x, y, z, w)>;
+
+typedef struct{
+	SetRandomBackColor();
+	uint32 pointer;
+	local uint64 prePos<hidden=true> = FTell();
+	FSeek(pointer + RELATIVE_OFFSET);
+	string data;
+	FSeek(prePos);
+}
+StringOffsetMirage<read=data, optimize=false>;
+
+typedef struct{
+	SetRandomBackColor();
+	uint32 pointer;
+	local uint64 prePos<hidden=true> = FTell();
+	FSeek(pointer + RELATIVE_OFFSET);
+	int data;
+	FSeek(prePos);
+}
+IntOffsetMirage<read=data, optimize=false>;
+
+typedef struct{
+	SetRandomBackColor();
+	uint16 unk1;
+	uint16 Size;
+	uint32 unk3;
+	char Name[8];
+}
+UnkStr<optimize=false>;
+
+typedef struct{
+	SetRandomBackColor();
+	uint32 paramOffset<hidden=true>;
+	local uint32 prePos<hidden=true> = FTell();
+	FSeek(paramOffset + RELATIVE_OFFSET);
+	uint16 unk0;
+	uint16 unk1;
+	StringOffsetMirage Name;
+	uint32 vectorOffset<hidden=true>;
+	FSeek(vectorOffset + RELATIVE_OFFSET);
+	Vector4f Data;
+	FSeek(prePos);
+}Parameter<optimize=false, read=Name.data>;
+
+typedef struct{
+	SetRandomBackColor();
+	uint32 mainOffset<hidden=true>;
+	local uint32 prePos<hidden=true> = FTell();
+	FSeek(mainOffset + RELATIVE_OFFSET);
+	Parameter parameters[PARAMETER_COUNT];
+	FSeek(prePos);
+}Params;
+
+typedef struct{
+	SetRandomBackColor();
+	local uint32 prePos<hidden=true> = FTell();
+	FSeek(TEXSET_POINTER + RELATIVE_OFFSET);
+	StringOffsetMirage texsetName[TEXTURE_COUNT];
+	FSeek(prePos);
+}Texset;
+
+typedef struct{
+	SetRandomBackColor();
+	uint32 pointer<hidden=true>;
+	local uint64 prePos<hidden=true> = FTell();
+	FSeek(pointer + RELATIVE_OFFSET);
+	StringOffsetMirage Name;
+	uint16 unk0;
+	uint16 unk1;
+	StringOffsetMirage InputName;
+	FSeek(prePos);
+}Texture<optimize=false, read=Name.data>;
+
+typedef struct{
+	SetRandomBackColor();
+	local uint32 prePos<hidden=true> = FTell();
+	FSeek(TEXTURES_POINTER + RELATIVE_OFFSET);
+	Texture textureData[TEXTURE_COUNT]<name="Textures">;
+	FSeek(prePos);
+}Textures;
+
+typedef struct{
+	SetRandomBackColor();
+	uint32 pointer<hidden=true>;
+	local uint64 prePos<hidden=true> = FTell();
+	FSeek(pointer + RELATIVE_OFFSET);
+	uint16 unk0;
+	uint16 unk1;
+	StringOffsetMirage Name;
+	IntOffsetMirage Data;
+	FSeek(prePos);
+}Variable<optimize=false, read=Name.data>;
+
+typedef struct{
+	SetRandomBackColor();
+	uint32 mainOffset<hidden=true>;
+	local uint32 prePos<hidden=true> = FTell();
+	FSeek(mainOffset + RELATIVE_OFFSET);
+	Variable variables[VARIABLE_COUNT];
+	FSeek(prePos);
+}Variables;
+
+typedef struct{
+    SetRandomBackColor();
+	byte padding0[8];
+	uint32 Unk0;
+	uint32 Unk1;
+	UnkStr UnkArray[2];
+	StringOffsetMirage Shader1Name;
+	StringOffsetMirage Shader2Name;
+	uint32 texsetPtr;
+	TEXSET_POINTER = texsetPtr;
+	uint32 texturesPtr;
+	TEXTURES_POINTER = texturesPtr;
+	byte unk0b<hidden=true>;
+	byte backFaceCulling;
+	byte additiveBlending;
+	byte unk1b<hidden=true>;
+	byte paramCount;
+	PARAMETER_COUNT = paramCount;
+	byte unk2b<hidden=true>;
+	byte varCount;
+	VARIABLE_COUNT = varCount;
+	byte textureCount;
+	TEXTURE_COUNT = textureCount;
+	Params parameters;
+	uint32 unk2;
+	Variables vars;
+	Texset tex<name="Texset">;
+	Textures textures<name="Textures">;
+}
+ResMaterial<open=true>;
+
+BigEndian();
+ResMaterial File;

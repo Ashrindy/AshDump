@@ -1,0 +1,67 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.mlevel
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local uint64 dataPos;
+
+typedef struct{
+    uint64 offset2;
+    local uint64 prePos2<hidden=true> = FTell();
+    FSeek(offset2 + dataPos);
+    StringOffset dependencyName;
+    FSeek(prePos2);
+}Item<optimize=false, read=ReadString(dataPos + dependencyName.off)>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 offset<hidden=true>;
+    local int64 prePos<hidden=true> = FTell();
+    FSeek(offset + dataPos);
+    StringOffset levelName;
+    uint32 fileCount;
+    uint32 dependencyCount;
+    uint64 filesOffset;
+    uint64 dependencyOffset;
+    byte unk;
+    byte hasFiles;
+    byte padding[2]<hidden=true>;
+
+    if(dependencyCount != 0){
+        FSeek(dependencyOffset + dataPos);
+        Item dependencies[dependencyCount];
+    }
+
+    if(fileCount != 0){
+        FSeek(filesOffset + dataPos);
+        Item files[fileCount];
+    }
+
+    FSeek(prePos);
+
+}Level<optimize=false, read=ReadString(dataPos + levelName.off)>;
+
+typedef struct{
+    SetRandomBackColor();
+	char signature[4]<name="Signature">;
+	int version <format=hex, name="Version">;
+    uint32 Count;
+    uint32 padding2<hidden=true>;
+    uint32 tableOffset<hidden=true>;
+    FSeek(tableOffset + dataPos);
+    Level Levels[Count];
+}
+ResMasterLevel<open=true>;
+
+ResBinaryFile file("ResMasterLevel")<name=Str("%s", FileNameGetBase(GetFileName()))>;
