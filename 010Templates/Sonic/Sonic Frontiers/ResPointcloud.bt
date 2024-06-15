@@ -1,0 +1,41 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.pcmodel, *.pccol, *.pcrt
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local uint64 dataPos;
+
+typedef struct{
+    SetRandomBackColor();
+    StringOffset instanceName;
+    StringOffset resourceName;
+    Vector3 Position;
+    Vector3 Rotation;
+    int unk;
+    Vector3 Scale;
+    int64 unk<hidden=true>;
+}
+Point<optimize=false, read=Str("%s, %s", ReadString(dataPos + instanceName.off), ReadString(dataPos + resourceName.off))>;
+
+typedef struct{
+    SetRandomBackColor();
+    char signature[4]<name="Signature">;
+	int version <format=hex, name="Version">;
+    int64 tableOffset;
+    int64 count;
+    Point points[count];
+}
+ResPointcloud<open=true>;
+
+ResBinaryFile file("ResPointcloud")<name=Str("%s", FileNameGetBase(GetFileName()))>;

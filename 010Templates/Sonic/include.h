@@ -49,6 +49,14 @@ void GetStruct (string structName)
 		case "ResProbe":
 			struct ResProbe resProbe <name="ResProbe">;
 			break;
+			
+		case "ResPointcloud":
+			struct ResPointcloud resPointcloud <name="ResPointcloud">;
+			break;
+
+		case "ResDensityPointCloud":
+			struct ResDensityPointCloud resDensityPointCloud <name="ResDensityPointCloud">;
+			break;
 		
 		default:
 			break;

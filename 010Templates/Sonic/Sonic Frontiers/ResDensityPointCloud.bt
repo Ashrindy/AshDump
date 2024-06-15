@@ -1,0 +1,53 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.densitypointcloud
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local uint64 dataPos;
+
+typedef struct{
+    ubyte a;
+    ubyte r;
+    ubyte g;
+    ubyte b;
+}
+RGBA<read=Str("%1.0f, %1.0f, %1.0f, %1.0f", r, g, b, a)>;
+
+typedef struct{
+    SetRandomBackColor();
+    Vector3 Position;
+    int unk;
+    Vector3 Scale;
+    int unk1;
+    Quaternion Rotation;
+    int unk2[4];
+    RGBA color;
+    int id;
+    byte unk3[4];
+    int64 unk<hidden=true>;
+}
+Point<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    char signature[4]<name="Signature">;
+	int version <format=hex, name="Version">;
+    int64 padding;
+    int64 tableOffset;
+    int64 count;
+    Point points[count];
+}
+ResDensityPointCloud<open=true>;
+
+ResBinaryFile file("ResDensityPointCloud")<name=Str("%s", FileNameGetBase(GetFileName()))>;
