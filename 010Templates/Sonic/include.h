@@ -57,6 +57,10 @@ void GetStruct (string structName)
 		case "ResDensityPointCloud":
 			struct ResDensityPointCloud resDensityPointCloud <name="ResDensityPointCloud">;
 			break;
+			
+		case "ResBulletMesh":
+			struct ResBulletMesh resBulletMesh <name="ResBulletMesh">;
+			break;
 		
 		default:
 			break;
