@@ -1,0 +1,125 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.model
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local int32 RELATIVE_OFFSET = 0x10;
+local int32 PARAMETER_COUNT = 0;
+local int32 TEXTURE_COUNT = 0;
+local int32 VARIABLE_COUNT = 0;
+local int32 TEXSET_POINTER = 0;
+local int32 TEXTURES_POINTER = 0;
+
+typedef struct{
+	uint16 x;
+	uint16 y;
+	uint16 z;
+}Vector3s<read=Str("%1.0f, %1.0f, %1.0f", x, y, z)>;
+
+typedef struct{
+	SetRandomBackColor();
+	float x;
+	float y;
+	float z;
+	float w;
+}Vector4f<read=Str("%1.0f, %1.0f, %1.0f, %1.0f", x, y, z, w)>;
+
+typedef struct{
+	SetRandomBackColor();
+	float x;
+	float y;
+	float z;
+}Vector3f<read=Str("%1.0f, %1.0f, %1.0f", x, y, z)>;
+
+typedef struct{
+	SetRandomBackColor();
+	uint32 pointer;
+	local uint64 prePos<hidden=true> = FTell();
+	FSeek(pointer + RELATIVE_OFFSET);
+	string data;
+	FSeek(prePos);
+}
+StringOffsetMirage<read=data, optimize=false>;
+
+typedef struct{
+	SetRandomBackColor();
+	uint32 pointer;
+	local uint64 prePos<hidden=true> = FTell();
+	FSeek(pointer);
+	int data;
+	FSeek(prePos);
+}
+IntOffsetMirage<read=data, optimize=false>;
+
+typedef struct{
+	SetRandomBackColor();
+	int meshHeader;
+	local int prePos = FTell();
+	FSeek(meshHeader + RELATIVE_OFFSET);
+	StringOffsetMirage materialName;
+	int indiceCount;
+	int indiceOffset;
+	int vertCount;
+	int vertSize;
+	int vertChunkOffset;
+	int vertDataTypeOffset;
+	int boneRefCount;
+	int boneRefOffset;
+	FSeek(indiceOffset + RELATIVE_OFFSET);
+	Vector3s faces[indiceCount];
+	FSeek(vertDataTypeOffset + RELATIVE_OFFSET);
+	local int vTypeOffset = 0;
+    while (vTypeOffset < 0xff)
+    {
+        int vTypeOffset;
+        int vTypeFormat;
+        int16 vTypeIndex;
+        int16 vTypeIndex1;
+        if (vTypeFormat == -1)
+        {
+            break;
+        }
+    }
+	FSeek(prePos);
+}Mesh<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+	byte padding0[8];
+	int pointer;
+	FSeek(pointer);
+	int pointer2;
+	FSeek(pointer2 + 0xC);
+	int meshJump1Count; 
+	int meshJump1; 
+	byte padding1[8];
+	int boneCount;
+	StringOffsetMirage BoneName;
+	int bonePosOffset;
+	FSeek(meshJump1 + RELATIVE_OFFSET);
+	int tempThing;
+	FSeek(tempThing + RELATIVE_OFFSET);
+	int meshCount;
+	if(meshCount == 0)
+		meshCount = 1;
+	int meshTableOffset;
+	int materialCount;
+	int materialTableOffset;
+	FSeek(meshTableOffset + RELATIVE_OFFSET);
+	Mesh meshes[meshCount];
+}
+ResModel<open=true>;
+
+BigEndian();
+ResModel File;

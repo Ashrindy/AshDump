@@ -1,0 +1,35 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.0.1
+//   Purpose: 
+//  Category: 
+// File Mask: *.occ
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local uint64 dataPos;
+
+typedef struct{
+    SetRandomBackColor();
+    uint32 unk0[4];
+    float unk1;
+    ushort unk2[6];
+    float unk3[2];
+}UnkStruct;
+
+typedef struct{
+    SetRandomBackColor();
+	uint64 StringPointer;
+    uint32 Padding0[2];
+    UnkStruct thing;
+}
+ResOcclusionCapsule<open=true>;
+
+ResBinaryFile file("ResOcclusionCapsule")<name=Str("%s", FileNameGetBase(GetFileName()))>;

@@ -34,7 +34,8 @@ typedef struct{
     short data[4];
     uint32 data1[4];
     uint32 data2[2];
-    float data3[8];
+    float data3[7];
+    short data4[2];
 }UnkData<optimize=false>;
 
 typedef struct{
@@ -48,15 +49,16 @@ typedef struct{
 typedef struct{
     SetRandomBackColor();
     uint32 data;
-    uint32 data1;
+    uint32 modelIndex;
     uint32 data2;
     uint32 data3;
-}UnkData3<optimize=false>;
+}AreaMapInfo<optimize=false>;
 
 typedef struct{
     SetRandomBackColor();
     uint32 data;
-    uint32 data1;
+    uint16 data1;
+    uint16 data1a;
     uint32 data2;
     uint32 data3;
     float data4;
@@ -87,7 +89,7 @@ typedef struct{
     float data5;
     float data6[2];
     ushort data7[4];
-    uint32 data8;
+    int32 data8;
 }UnkData6<optimize=false>;
 
 typedef struct{
@@ -112,11 +114,11 @@ typedef struct{
     FSeek(OffsetInfo[0].StartOffset + dataPos);
     DensityStr Density[OffsetInfo[0].Amount];
     FSeek(OffsetInfo[1].StartOffset + dataPos);
-    UnkData Unk3[OffsetInfo[1].Amount];
+    UnkData IDInfo[OffsetInfo[1].Amount];
     FSeek(OffsetInfo[2].StartOffset + dataPos);
     LODInfo LODData[OffsetInfo[2].Amount];
     FSeek(OffsetInfo[3].StartOffset + dataPos);
-    UnkData3 Unk5[OffsetInfo[3].Amount];
+    AreaMapInfo AreaInfo[OffsetInfo[3].Amount];
     FSeek(OffsetInfo[4].StartOffset + dataPos);
     UnkData4 Unk6[OffsetInfo[4].Amount];
     FSeek(OffsetInfo[5].StartOffset + dataPos);
@@ -127,6 +129,10 @@ typedef struct{
     CollisionItem CollisionData[OffsetInfo[7].Amount];
     FSeek(OffsetInfo[8].StartOffset + dataPos);
     uint32 Unk8[OffsetInfo[8].Amount];
+    FSeek(OffsetInfo[13].StartOffset + dataPos);
+    int32 Unk9[OffsetInfo[13].Amount];
+    FSeek(OffsetInfo[14].StartOffset + dataPos);
+    StringOffset Unk10[OffsetInfo[14].Amount];
 }
 ResDensitySetting<open=true>;
 

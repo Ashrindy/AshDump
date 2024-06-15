@@ -41,6 +41,14 @@ void GetStruct (string structName)
 		case "ResAnimationPxd":
 			struct ResAnimationPxd resAnimationPxd <name="ResAnimationPxd">;
 			break;
+
+		case "ResOcclusionCapsule":
+			struct ResOcclusionCapsule resOcclusionCapsule <name="ResOcclusionCapsule">;
+			break;
+
+		case "ResProbe":
+			struct ResProbe resProbe <name="ResProbe">;
+			break;
 		
 		default:
 			break;
