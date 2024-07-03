@@ -1,0 +1,39 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.0.1
+//   Purpose: 
+//  Category: 
+// File Mask: *.skl.pxd
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local uint64 dataPos;
+
+typedef struct{
+    SetRandomBackColor();
+	char signature[4]<name="Signature">;
+	int version <format=hex, name="Version">;
+    int64 unkOffset;
+    int64 unk1;
+    int64 unk2;
+    int64 unk3;
+    int64 stringTableOffset;
+    int64 unk4;
+    int64 unk5;
+    int64 unk6;
+    int64 unk1Offset;
+    int64 unk7;
+    int64 unk8;
+    int64 unk9;
+
+}
+ResSkeletonPxd<open=true>;
+
+ResBinaryFile file("ResSkeletonPxd")<name=Str("%s", FileNameGetBase(GetFileName()))>;

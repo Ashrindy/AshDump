@@ -131,10 +131,19 @@ typedef struct{
 }Variables;
 
 typedef struct{
+	SetRandomBackColor();
+	int pointer;
+	int count;
+	local int64 prepos = FTell();
+	FSeek(pointer);
+	int offsets[count];
+	FSeek(prepos);
+}Offsets;
+
+typedef struct{
     SetRandomBackColor();
 	byte padding0[8];
-	uint32 Unk0;
-	uint32 Unk1;
+	Offsets offsetsData;
 	UnkStr UnkArray[2];
 	StringOffsetMirage Shader1Name;
 	StringOffsetMirage Shader2Name;
