@@ -142,7 +142,8 @@ typedef struct{
 
 typedef struct{
     SetRandomBackColor();
-	byte padding0[8];
+	uint16 test;
+	byte padding0[6];
 	Offsets offsetsData;
 	UnkStr UnkArray[2];
 	StringOffsetMirage Shader1Name;

@@ -20,11 +20,26 @@ typedef struct{
     SetRandomBackColor();
 	char signature[4]<name="Signature">;
 	int version <format=hex, name="Version">;
-    uint32 Count;
-    uint32 padding;
-    uint64 padding1;
-    float unk1;
-    uint32 FrameLength;
+    byte additive;
+    byte compressed;
+    byte padding[6];
+    int64 dataOffset;
+    float playrate;
+    int FrameLength;
+    int64 trackCount;
+    int64 mainOffset;
+    int64 rootOffset;
+
+    FSeek(mainOffset + dataPos);
+    int dataLength;
+    FSeek(mainOffset + dataPos);
+    byte data[dataLength];
+    if(rootOffset != 0){
+        FSeek(rootOffset + dataPos);
+        int rootDataLength;
+        FSeek(rootOffset + dataPos);
+        byte rootData[rootDataLength];
+    }
 }
 ResAnimationPxd<open=true>;
 

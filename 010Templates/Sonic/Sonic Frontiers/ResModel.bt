@@ -20,12 +20,48 @@ local int32 TEXTURE_COUNT = 0;
 local int32 VARIABLE_COUNT = 0;
 local int32 TEXSET_POINTER = 0;
 local int32 TEXTURES_POINTER = 0;
+local int32 BONE_COUNT = 0;
+
+local int offsetEnabled[11];
+
+local int vertPosOffset = 0;
+local int normalsOffset = 0;
+local int normalsType = 0;
+local int uvOffset = 0;
+local int uv2Offset = 0;
+local int uv3Offset = 0;
+local int uv4Offset = 0;
+local int colorOffset = 0;
+local int wBoneOffset = 0;
+local int wBone2Offset = 0;
+local int wWeightOffset = 0;
+local int wWeight2Offset = 0;
+
+local int w = 0;
+
+local int curVertChunkOffset = 0;
+local int curVertSize = 0;
 
 typedef struct{
+	SetRandomBackColor();
+	ubyte a;
+	ubyte b;
+	ubyte g;
+	ubyte r;
+}Color<read=Str("%1.0f, %1.0f,  %1.0f,  %1.0f", r, g, b, a),optimize=false>;
+
+typedef struct{
+	SetRandomBackColor();
+	short u;
+	short v;
+}UV<read=Str("%1.0f, %1.0f", u, v),optimize=false>;
+
+typedef struct{
+	SetRandomBackColor();
 	uint16 x;
 	uint16 y;
 	uint16 z;
-}Vector3s<read=Str("%1.0f, %1.0f, %1.0f", x, y, z)>;
+}Vector3s<read=Str("%1.0f, %1.0f, %1.0f", x, y, z), optimize=false>;
 
 typedef struct{
 	SetRandomBackColor();
@@ -33,14 +69,14 @@ typedef struct{
 	float y;
 	float z;
 	float w;
-}Vector4f<read=Str("%1.0f, %1.0f, %1.0f, %1.0f", x, y, z, w)>;
+}Vector4f<read=Str("%1.0f, %1.0f, %1.0f, %1.0f", x, y, z, w), optimize=false>;
 
 typedef struct{
 	SetRandomBackColor();
 	float x;
 	float y;
 	float z;
-}Vector3f<read=Str("%1.0f, %1.0f, %1.0f", x, y, z)>;
+}Vector3f<read=Str("%1.0f, %1.0f, %1.0f", x, y, z), optimize=false>;
 
 typedef struct{
 	SetRandomBackColor();
@@ -64,6 +100,104 @@ IntOffsetMirage<read=data, optimize=false>;
 
 typedef struct{
 	SetRandomBackColor();
+	int ptr;
+	local int64 prePos<hidden=true> = FTell();
+	FSeek(ptr + RELATIVE_OFFSET);
+	StringOffsetMirage input;
+	FSeek(prePos);
+}UnkStructOffset<optimize=false>;
+
+typedef struct{
+	SetRandomBackColor();
+	int vTypeOffset;
+	int vTypeFormat;
+    uint vTypeIndex<format=hex>;
+}vStruct<optimize=false>;
+
+typedef struct{
+	SetRandomBackColor();
+	local int temp = FTell();
+	if(offsetEnabled[0] == 1){
+		FSeek(curVertChunkOffset + w * curVertSize + vertPosOffset + RELATIVE_OFFSET);
+		Vector3f vertex;
+	}
+	w++;
+	FSeek(temp);
+}Vertices<optimize=false, read=Str("%1f, %1f, %1f", vertex.x, vertex.y, vertex.z)>;
+
+typedef struct{
+	SetRandomBackColor();
+	local int temp = FTell();
+	if(offsetEnabled[1] == 1){
+		FSeek(curVertChunkOffset + w * curVertSize + normalsOffset + RELATIVE_OFFSET);
+		if(normalsType == 0x2A23B9){
+			Vector3f normal;
+		}
+		else if(normalsType == 0x2A2187){
+			int normal;
+		}
+	}
+	w++;
+	FSeek(temp);
+}Normals<optimize=false>;
+
+typedef struct{
+	SetRandomBackColor();
+	local int temp = FTell();
+	if(offsetEnabled[2] == 1){
+		FSeek(curVertChunkOffset + w * curVertSize + uvOffset + RELATIVE_OFFSET);
+		UV uv;
+	}
+	w++;
+	FSeek(temp);
+}UVs<optimize=false, read=Str("%1f, %1f", uv.u, uv.v)>;
+
+typedef struct{
+	SetRandomBackColor();
+	local int temp = FTell();
+	if(offsetEnabled[3] == 1){
+		FSeek(curVertChunkOffset + w * curVertSize + uv2Offset + RELATIVE_OFFSET);
+		UV uv;
+	}
+	w++;
+	FSeek(temp);
+}UVs2<optimize=false, read=Str("%1f, %1f", uv.u, uv.v)>;
+
+typedef struct{
+	SetRandomBackColor();
+	local int temp = FTell();
+	if(offsetEnabled[4] == 1){
+		FSeek(curVertChunkOffset + w * curVertSize + uv3Offset + RELATIVE_OFFSET);
+		UV uv;
+	}
+	w++;
+	FSeek(temp);
+}UVs3<optimize=false, read=Str("%1f, %1f", uv.u, uv.v)>;
+
+typedef struct{
+	SetRandomBackColor();
+	local int temp = FTell();
+	if(offsetEnabled[5] == 1){
+		FSeek(curVertChunkOffset + w * curVertSize + uv4Offset + RELATIVE_OFFSET);
+		UV uv;
+	}
+	w++;
+	FSeek(temp);
+}UVs4<optimize=false, read=Str("%1f, %1f", uv.u, uv.v)>;
+
+typedef struct{
+	SetRandomBackColor();
+	local int temp = FTell();
+	if(offsetEnabled[6] == 1){
+		FSeek(curVertChunkOffset + w * curVertSize + colorOffset + RELATIVE_OFFSET);
+		Color color;
+	}
+	w++;
+	FSeek(temp);
+}Colors<optimize=false, read=Str("%1.0f, %1.0f, %1.0f, %1.0f", color.r, color.g, color.b, color.a)>;
+
+typedef struct{
+	SetRandomBackColor();
 	int meshHeader;
 	local int prePos = FTell();
 	FSeek(meshHeader + RELATIVE_OFFSET);
@@ -72,25 +206,147 @@ typedef struct{
 	int indiceOffset;
 	int vertCount;
 	int vertSize;
+	curVertSize = vertSize;
 	int vertChunkOffset;
+	curVertChunkOffset = vertChunkOffset;
 	int vertDataTypeOffset;
 	int boneRefCount;
 	int boneRefOffset;
+	int unkCount;
+	int unkOffset;
+	FSeek(boneRefOffset + RELATIVE_OFFSET);
+	if(BONE_COUNT <= 255){
+		byte boneRefs[boneRefCount];
+	}
+	else{
+		short boneRefs[boneRefCount];
+	}
+	FSeek(unkOffset + RELATIVE_OFFSET);
+	UnkStructOffset offsets[unkCount];
 	FSeek(indiceOffset + RELATIVE_OFFSET);
 	Vector3s faces[indiceCount];
 	FSeek(vertDataTypeOffset + RELATIVE_OFFSET);
-	local int vTypeOffset = 0;
-    while (vTypeOffset < 0xff)
+	local vStruct vstr<hidden=true>;
+	local int64 prePos0<hidden=true> = FTell();
+	local int x<hidden=true> = 0;
+    while (vstr.vTypeOffset < 0xff)
     {
-        int vTypeOffset;
-        int vTypeFormat;
-        int16 vTypeIndex;
-        int16 vTypeIndex1;
-        if (vTypeFormat == -1)
+        vStruct vstr<hidden=true>;
+		x++;
+        if (vstr.vTypeIndex == -1)
         {
             break;
         }
     }
+	FSeek(prePos0);
+	vStruct vstrArray[x];
+	local int j = 0;
+	for(j = 0; j < x; j++){
+		if(vstrArray[j].vTypeIndex == 0){
+			vertPosOffset = vstrArray[j].vTypeOffset;
+			offsetEnabled[0] = 1;
+			break;
+		}
+	}
+	for(j = 0; j < x; j++){
+		if(vstrArray[j].vTypeIndex == 0x30000){
+			normalsOffset = vstrArray[j].vTypeOffset;
+			normalsType = vstrArray[j].vTypeFormat;
+			offsetEnabled[1] = 1;
+			break;
+		}
+	}
+	for(j = 0; j < x; j++){
+		if(vstrArray[j].vTypeIndex == 0x50000){
+			uvOffset = vstrArray[j].vTypeOffset;
+			offsetEnabled[2] = 1;
+			break;
+		}
+	}
+	for(j = 0; j < x; j++){
+		if(vstrArray[j].vTypeIndex == 0x50100){
+			uv2Offset = vstrArray[j].vTypeOffset;
+			offsetEnabled[3] = 1;
+			break;
+		}
+	}
+	for(j = 0; j < x; j++){
+		if(vstrArray[j].vTypeIndex == 0x50200){
+			uv3Offset = vstrArray[j].vTypeOffset;
+			offsetEnabled[4] = 1;
+			break;
+		}
+	}
+	for(j = 0; j < x; j++){
+		if(vstrArray[j].vTypeIndex == 0x50300){
+			uv4Offset = vstrArray[j].vTypeOffset;
+			offsetEnabled[5] = 1;
+			break;
+		}
+	}
+	for(j = 0; j < x; j++){
+		if(vstrArray[j].vTypeIndex == 0xA0000){
+			colorOffset = vstrArray[j].vTypeOffset;
+			offsetEnabled[6] = 1;
+			break;
+		}
+	}
+	for(j = 0; j < x; j++){
+		if(vstrArray[j].vTypeIndex == 0x20000){
+			wBoneOffset = vstrArray[j].vTypeOffset;
+			offsetEnabled[7] = 1;
+			break;
+		}
+	}
+	for(j = 0; j < x; j++){
+		if(vstrArray[j].vTypeIndex == 0x20100){
+			wBone2Offset = vstrArray[j].vTypeOffset;
+			offsetEnabled[8] = 1;
+			break;
+		}
+	}
+	for(j = 0; j < x; j++){
+		if(vstrArray[j].vTypeIndex == 0x10000){
+			wWeightOffset = vstrArray[j].vTypeOffset;
+			offsetEnabled[9] = 1;
+			break;
+		}
+	}
+	for(j = 0; j < x; j++){
+		if(vstrArray[j].vTypeIndex == 0x10100){
+			wWeight2Offset = vstrArray[j].vTypeOffset;
+			offsetEnabled[10] = 1;
+			break;
+		}
+	}
+	if(offsetEnabled[0] == 1){
+		w = 0;
+		Vertices vertices[vertCount];
+	}
+	if(offsetEnabled[1] == 1){
+		w = 0;
+		Normals normals[vertCount];
+	}
+	if(offsetEnabled[2] == 1){
+		w = 0;
+		UVs uvs[vertCount];
+	}
+	if(offsetEnabled[3] == 1){
+		w = 0;
+		UVs2 uvs2[vertCount];
+	}
+	if(offsetEnabled[4] == 1){
+		w = 0;
+		UVs3 uvs3[vertCount];
+	}
+	if(offsetEnabled[5] == 1){
+		w = 0;
+		UVs4 uvs4[vertCount];
+	}
+	if(offsetEnabled[6] == 1){
+		w = 0;
+		Colors colors[vertCount];
+	}
 	FSeek(prePos);
 }Mesh<optimize=false>;
 
@@ -105,6 +361,7 @@ typedef struct{
 	int meshJump1; 
 	byte padding1[8];
 	int boneCount;
+	BONE_COUNT = boneCount;
 	StringOffsetMirage BoneName;
 	int bonePosOffset;
 	FSeek(meshJump1 + RELATIVE_OFFSET);

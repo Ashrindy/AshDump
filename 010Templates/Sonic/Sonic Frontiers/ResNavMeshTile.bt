@@ -26,7 +26,11 @@ typedef struct{
     uint32 Count;
     uint32 Unk4[7];
     Vector3 UnkVec;
-    Vector3 Points[Count+2];
+    Vector3 Points[2];
+    float Unk5;
+    Vector3 Points2[Count];
+    int test[Unk4[1]];
+    byte test1[Unk4[0]];
 }
 ResNavMeshConfig<open=true>;
 

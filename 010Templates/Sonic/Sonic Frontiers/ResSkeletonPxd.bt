@@ -17,22 +17,57 @@
 local uint64 dataPos;
 
 typedef struct{
+    Vector4 row[3];
+}Matrix3x4;
+
+typedef struct{
+    StringOffset name;
+    int64 unk;
+}BoneName<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 offset;
+    int64 count;
+    local int64 prePos = FTell();
+    FSeek(offset + dataPos);
+    ushort vertices[count];
+    FSeek(prePos);
+}Vertices;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 offset;
+    int64 count;
+    local int64 prePos = FTell();
+    FSeek(offset + dataPos);
+    BoneName boneNames[count];
+    FSeek(prePos);
+}BoneNameArray;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 offset;
+    int64 count;
+    local int64 prePos = FTell();
+    FSeek(offset + dataPos);
+    Matrix3x4 bones[count];
+    FSeek(prePos);
+}BoneArray;
+
+typedef struct{
     SetRandomBackColor();
 	char signature[4]<name="Signature">;
 	int version <format=hex, name="Version">;
-    int64 unkOffset;
-    int64 unk1;
+    Vertices vertices;
     int64 unk2;
     int64 unk3;
-    int64 stringTableOffset;
-    int64 unk4;
+    BoneNameArray boneNameArray;
     int64 unk5;
     int64 unk6;
-    int64 unk1Offset;
-    int64 unk7;
+    BoneArray boneArray;
     int64 unk8;
     int64 unk9;
-
 }
 ResSkeletonPxd<open=true>;
 
