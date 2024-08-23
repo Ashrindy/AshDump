@@ -33,9 +33,12 @@ local int uv3Offset = 0;
 local int uv4Offset = 0;
 local int colorOffset = 0;
 local int wBoneOffset = 0;
+local int wBoneType = 0;
 local int wBone2Offset = 0;
 local int wWeightOffset = 0;
 local int wWeight2Offset = 0;
+local int wBoneCount = 4;
+local int wBoneSize = 1;
 
 local int w = 0;
 
@@ -70,6 +73,10 @@ typedef struct{
 	float z;
 	float w;
 }Vector4f<read=Str("%1.0f, %1.0f, %1.0f, %1.0f", x, y, z, w), optimize=false>;
+
+typedef struct{
+	Vector4f rows[4];
+}Matrix4x4;
 
 typedef struct{
 	SetRandomBackColor();
@@ -198,6 +205,27 @@ typedef struct{
 
 typedef struct{
 	SetRandomBackColor();
+	if(wBoneSize == 1){
+		byte data;
+	} 
+	else{
+		short data;
+	}
+}Bone<optimize=false>;
+
+typedef struct{
+	SetRandomBackColor();
+	local int temp = FTell();
+	FSeek(curVertChunkOffset + w * curVertSize + wBoneOffset + RELATIVE_OFFSET);
+	Bone bones[wBoneCount];
+	FSeek(curVertChunkOffset + w * curVertSize + wWeightOffset + RELATIVE_OFFSET);
+	byte weight[wBoneCount];
+	w++;
+	FSeek(temp);
+}Bones<optimize=false>;
+
+typedef struct{
+	SetRandomBackColor();
 	int meshHeader;
 	local int prePos = FTell();
 	FSeek(meshHeader + RELATIVE_OFFSET);
@@ -294,6 +322,7 @@ typedef struct{
 	for(j = 0; j < x; j++){
 		if(vstrArray[j].vTypeIndex == 0x20000){
 			wBoneOffset = vstrArray[j].vTypeOffset;
+			wBoneType = vstrArray[j].vTypeFormat;
 			offsetEnabled[7] = 1;
 			break;
 		}
@@ -347,8 +376,43 @@ typedef struct{
 		w = 0;
 		Colors colors[vertCount];
 	}
+	if(offsetEnabled[7] == 1 && offsetEnabled[9] == 1){
+		if(wBoneType == 0x1A225A){
+			wBoneSize = 2;
+		}
+		if(offsetEnabled[8] == 1){
+			wBoneCount = 8;
+		}
+		w = 0;
+		Bones bones[vertCount];
+	}
 	FSeek(prePos);
 }Mesh<optimize=false>;
+
+typedef struct{
+	SetRandomBackColor();
+	int offset;
+	local int64 prePos = FTell();
+	FSeek(offset + RELATIVE_OFFSET);
+	int parentid;
+	StringOffsetMirage name;
+	FSeek(prePos);
+}BoneMain<optimize=false>;
+
+typedef struct{
+	SetRandomBackColor();
+	int boneCount;
+	BONE_COUNT = boneCount;
+	int mainOffset;
+	int matOffset;
+	int unkOffset;
+	local int64 prePos = FTell();
+	FSeek(mainOffset + RELATIVE_OFFSET);
+	BoneMain bones[boneCount];
+	FSeek(matOffset + RELATIVE_OFFSET);
+	Matrix4x4 mats[boneCount];
+	FSeek(prePos);
+}BonesMain<optimize=false>;
 
 typedef struct{
     SetRandomBackColor();
@@ -359,11 +423,8 @@ typedef struct{
 	FSeek(pointer2 + 0xC);
 	int meshJump1Count; 
 	int meshJump1; 
-	byte padding1[8];
-	int boneCount;
-	BONE_COUNT = boneCount;
-	StringOffsetMirage BoneName;
-	int bonePosOffset;
+	int padding1[2];
+	BonesMain bonesMain;
 	FSeek(meshJump1 + RELATIVE_OFFSET);
 	int tempThing;
 	FSeek(tempThing + RELATIVE_OFFSET);
@@ -378,5 +439,37 @@ typedef struct{
 }
 ResModel<open=true>;
 
+typedef struct{
+	SetRandomBackColor();
+	byte unk;
+	byte lodCount;
+	byte padding[2];
+	int lodUnk[lodCount-1];
+	ubyte offset;
+	FSeek(offset+4+36);
+	float unkFloats[lodCount];
+	byte padding1[160 - lodCount*4];
+}lodinfo;
+
+typedef struct{
+	SetRandomBackColor();
+	byte nedarcSignature[8];
+	if(nedarcSignature == "NEDARCV1"){
+		int fileSize;
+		byte arcMagic[4];
+		byte lodInfoSignature[16];
+		int lodInfoSize;
+		lodinfo LodInfo;
+		
+		byte modelSignature[16];
+		int modelSize;
+		byte modelData[modelSize];
+	}
+	else{
+		FSeek(0);
+		ResModel model;
+	}
+}NedArc;
+
 BigEndian();
-ResModel File;
+NedArc File;
