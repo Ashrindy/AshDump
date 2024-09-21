@@ -62,12 +62,12 @@ Like said above, these tools utilize the knowledge and code from the libraries.
 
 ### Sonic Series
 
-|                                 |                                                            **Sonic Frontiers**                                                             |              |
-| :-----------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
-|          **Tool Name**          |                                                                  **Info**                                                                  | **Language** |
-|       DvScene Asm Creator       |                           Used for easier character adding to .dvscenes as each one requires their own .asm file                           |     C++      |
-| DvScene Element Frame Offseter  |                           Used for simple offseting Frame Start and End for every element located in a cutscene                            |      C#      |
-| DvScene PreRendered to Realtime |               Used for easy converting from prerendered cutscenes to realtime, by moving the subtitles, letterbox and more.                |      C#      |
-|        DvScene Mute BGM         |                                     Used for muting BGM in cutscenes, seems to only work with bosses.                                      |      C#      |
-|        HeightField Tool         | Used for easy converting the .heightfield format to a generic image file and vice-versa, it still isn't perfect as the terrain gets blocky |      C#      |
-|            Vis Tool             |                             Used for easy editing of the .vis-anim format, converts it to .json and vice-versa                             |      C#      |
+|                                 |                                              **Sonic Frontiers**                                              |              |
+| :-----------------------------: | :-----------------------------------------------------------------------------------------------------------: | :----------: |
+|          **Tool Name**          |                                                   **Info**                                                    | **Language** |
+|       DvScene Asm Creator       |            Used for easier character adding to .dvscenes as each one requires their own .asm file             |     C++      |
+| DvScene Element Frame Offseter  |             Used for simple offseting Frame Start and End for every element located in a cutscene             |      C#      |
+| DvScene PreRendered to Realtime | Used for easy converting from prerendered cutscenes to realtime, by moving the subtitles, letterbox and more. |      C#      |
+|        DvScene Mute BGM         |                       Used for muting BGM in cutscenes, seems to only work with bosses.                       |      C#      |
+|          HeightFielder          |                    Used for easy converting the .heightfield format to .dds and vice-versa                    |      C#      |
+|            Vis Tool             |              Used for easy editing of the .vis-anim format, converts it to .json and vice-versa               |      C#      |

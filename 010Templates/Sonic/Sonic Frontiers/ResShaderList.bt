@@ -26,11 +26,27 @@ InputName<optimize=false, read=Str("%s",  ReadString(dataPos + Name.off))>;
 
 typedef struct{
     SetRandomBackColor();
+    StringOffset TypeName;
+    StringOffset ShaderName;
+}Shader<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 arraypos;
+    int64 arraycount;
+    local int64 prePos = FTell();
+    FSeek(arraypos + dataPos);
+    Shader shaders[arraycount];
+    FSeek(prePos);
+}Shaders;
+
+typedef struct{
+    SetRandomBackColor();
 	char signature[4]<name="Signature">;
 	int version <format=hex, name="Version">;
 	uint64 Unk<hidden=true>;
 	uint64 Count;
-	InputName MainInput;
+    Shaders shaders;
 	InputName Inputs[Count];
 }
 ResShaderList<open=true>;

@@ -1,0 +1,54 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.light
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local int32 RELATIVE_OFFSET = 0x18;
+local int32 STRING_TABLE_OFFSET = 0;
+
+typedef struct{
+	SetRandomBackColor();
+	float X, Y, Z;
+}FloatVector3<optimize=false, read=Str("(%f, %f, %f)", X, Y, Z)>;
+
+typedef struct{
+	SetRandomBackColor();
+}
+MirageAnimation;
+
+typedef struct{
+	SetRandomBackColor();
+	uint32 Ptr <hidden=true>;;
+	local uint32 PrePos<hidden=true> = FTell();
+	FSeek(Ptr);
+	MirageAnimation data;
+	FSeek(PrePos);
+}
+MirageAnimationPtr;
+
+typedef struct{
+    SetRandomBackColor();
+	int FileSize;
+	int Version;
+	int DataSize;
+	MirageAnimationPtr Data;
+	uint32 Ptr <hidden=true>;;
+	FSeek(Ptr);
+	uint32 OffsetCount;
+	uint32 Offsets[OffsetCount];
+}
+ResMirageLight<open=true>;
+
+BigEndian();
+ResMirageLight File;

@@ -17,32 +17,54 @@
 local uint64 dataPos;
 
 typedef struct{
-    uint32 Unk1[4];
-    uint64 Offset;
-    local uint64 PrePos = FTell();
-    FSeek(Offset);
-    float Unk2;
-    FSeek(PrePos);
-    uint32 Unk3[2];
-    uint64 Offset2;
-    local uint64 PrePos2 = FTell();
-    FSeek(Offset2-1);
-    float Unk4;
-    FSeek(PrePos2);
-    uint32 Unk5;
-    float Unk6[5];
-}
-UnkStruct<optimize=false>;
+    Vector4 rows[4];
+}Matrix4x4<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    StringOffset unkName;
+    int unk;
+    float unk2;
+    Matrix4x4 mat;
+}UnkStruct<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    StringOffset BoneName;
+    float unk;
+    int16 unks[10];
+}bone<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    float unk[2];
+    int16 unks[2];
+}boneunk<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    StringOffset unkName;
+    float test[2];
+    Matrix4x4 mat;
+    bone bones[72];
+    boneunk boneunks[323];
+}UnkStruct2<optimize=false>;
 
 typedef struct{
     SetRandomBackColor();
 	char signature[4]<name="Signature">;
 	int version <format=hex, name="Version">;
-    uint32 Count;
-    uint32 Padding;
-    uint32 Count2;
-    uint32 Padding2[3];
-    UnkStruct Content[Count2];
+    StringOffset SkeletonName;
+    uint64 Count;
+    uint64 offset;
+    uint64 padding;
+    uint64 Count2;
+    uint64 offset2;
+    uint64 padding2;
+    FSeek(offset + dataPos);
+    UnkStruct unkStructs[Count];
+    FSeek(offset2 + dataPos);
+    UnkStruct2 unkStructs2[Count2];
 }
 ResPhysicalSkeleton<open=true>;
 
