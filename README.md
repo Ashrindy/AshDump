@@ -54,7 +54,13 @@ Most of the libraries are in C# but sometimes it is in another language, these w
 |                  |                         **Sonic Frontiers**                         |              |
 | :--------------: | :-----------------------------------------------------------------: | :----------: |
 | **Library Name** |                               **Use**                               | **Language** |
+|    AshDumpLib    |     Used for easy reading and writing for various file formats      |      C#      |
 |    DiEventLib    | Used for easy reading and writing for the cutscene (.dvscene) files |      C#      |
+
+## Castle Siege
+
+| **Library Name** | **Use** | **Language** |
+| AshDumpLib | Used for easy reading and writing of Models and Archives | C# |
 
 ## Tools
 

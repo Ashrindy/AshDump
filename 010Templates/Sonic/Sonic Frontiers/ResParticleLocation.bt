@@ -16,37 +16,37 @@
 
 local uint64 dataPos;
 
+typedef struct{
+	SetRandomBackColor();
+	byte unk0;
+	byte unk1;
+	byte unk2;
+	byte unk3;
+	uint32 unk4;
+	StringOffset offset;
+	StringOffset offset;
+	uint64 offset2;
+	Vector3 position;
+	int32 unk5;
+	Quaternion rotation;
+	Vector3 scale;
+	int32 unk6;
+}UnkStr<optimize=false>;
+
 typedef struct
 {
     SetRandomBackColor();
     StringOffset name;
-    uint64 Type;
+    uint64 count;
     uint64 Offset;
-    if(Type != 0)
-    {
-        local uint64 PrePos = FTell();
-        FSeek(Offset);
-        StringOffset BoneName;
-        float unk1[2];
-        float unk6;
-        float unk10;
-        float unk7;
-        uint32 unk11;
-        float unk12;
-        float unk13;
-        uint32 unk2;
-        Vector2 unkvec1;
-        Vector2 unkvec2;
-        uint32 unk3;
-        uint32 unk4;
-        uint32 unk5;
-        StringOffset EffectName;
-        FSeek(PrePos);
-    }
-
-    uint64 field_12;
-    uint64 field_16;
-
+    uint64 count1;
+    uint64 offset1;
+	local int64 prePos = FTell();
+	FSeek(Offset + dataPos);
+	UnkStr str[count];
+	FSeek(offset1 + dataPos);
+	StringOffset test[count1];
+	FSeek(prePos);
 }State<optimize=false, read=Str("%s",  ReadString(dataPos + name.off))>;
 
 typedef struct{

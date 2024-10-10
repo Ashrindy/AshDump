@@ -2,9 +2,9 @@
 	path = Libraries/Sonic/Sonic Frontiers/DiEventLib
 	url = https://github.com/Ashrindy/DiEventLib
 	branch = refactor
-[submodule "Libraries/Sonic/Sonic Frontiers/AshDumpLib"]
-	path = Libraries/Sonic/Sonic Frontiers/AshDumpLib
-	url = https://github.com/Ashrindy/AshDumpLib
 [submodule "Tools/Sonic/Sonic Frontiers/HeightFielder"]
 	path = Tools/Sonic/Sonic Frontiers/HeightFielder
 	url = https://github.com/Ashrindy/HeightFielder
+[submodule "Libraries/AshDumpLib"]
+	path = Libraries/AshDumpLib
+	url = https://github.com/Ashrindy/AshDumpLib
