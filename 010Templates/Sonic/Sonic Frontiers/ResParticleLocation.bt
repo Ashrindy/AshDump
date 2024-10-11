@@ -18,20 +18,20 @@ local uint64 dataPos;
 
 typedef struct{
 	SetRandomBackColor();
-	byte unk0;
+	byte attachedToBone;
 	byte unk1;
 	byte unk2;
 	byte unk3;
 	uint32 unk4;
-	StringOffset offset;
-	StringOffset offset;
+	StringOffset particleName;
+	StringOffset boneName;
 	uint64 offset2;
 	Vector3 position;
 	int32 unk5;
 	Quaternion rotation;
 	Vector3 scale;
 	int32 unk6;
-}UnkStr<optimize=false>;
+}Particle<optimize=false, read=Str("%s -> %s",  ReadString(dataPos + particleName.off), ReadString(dataPos + boneName.off))>;
 
 typedef struct
 {
@@ -43,9 +43,9 @@ typedef struct
     uint64 offset1;
 	local int64 prePos = FTell();
 	FSeek(Offset + dataPos);
-	UnkStr str[count];
+	Particle particles[count];
 	FSeek(offset1 + dataPos);
-	StringOffset test[count1];
+	StringOffset soundNames[count1];
 	FSeek(prePos);
 }State<optimize=false, read=Str("%s",  ReadString(dataPos + name.off))>;
 
@@ -54,7 +54,8 @@ typedef struct{
 	char signature[4]<name="Signature">;
 	int version <format=hex, name="Version">;
     uint64 Count;
-    uint64 padding;
+    uint64 tableOffset;
+	FSeek(tableOffset + dataPos);
 	State States[Count]<name="States">;
 }
 ResParticleLocation<open=true>;
