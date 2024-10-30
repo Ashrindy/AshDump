@@ -44,6 +44,7 @@ I use 010 editor quite often when discovering and cracking file formats, meaning
 |     ResShaderList      | For easy reading of the .shader-list files, not much is currently known, it's still a bit buggy. Being used for research on shaders. |            Used ik-01's ResBinaryFile.h             |
 |     ResSkeletonPxd     |                                                For easy reading of the .skl.pxd files                                                |            Used ik-01's ResBinaryFile.h             |
 |   ResTerrainMaterial   |                                           For easy reading of the .terrain-material files                                            |            Used ik-01's ResBinaryFile.h             |
+|      ResVibration      |                                                  For easy reading of the .vib files                                                  |            Used ik-01's ResBinaryFile.h             |
 
 ## Libraries
 
@@ -60,7 +61,7 @@ Most of the libraries are in C# but sometimes it is in another language, these w
 ## Castle Siege
 
 | **Library Name** | **Use** | **Language** |
-| AshDumpLib | Used for easy reading and writing of Models and Archives | C# |
+| AshDumpLib | Used for easy reading and writing of Models, Animations, Archives, etc. | C# |
 
 ## Tools
 

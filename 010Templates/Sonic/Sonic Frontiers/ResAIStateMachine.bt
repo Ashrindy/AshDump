@@ -17,34 +17,60 @@
 local uint64 dataPos;
 
 typedef struct{
-    uint64 Offset<hidden=true>;
-    if(Offset != 0) {
-        local uint64 PrePos<hidden=true> = FTell();
-        FSeek(Offset+dataPos);
-        StringOffset Unk1;
-        StringOffset Unk2;
-        FSeek(PrePos);
-    }
-}UnkStr;
+    StringOffset name;
+    StringOffset name2;
+    int64 unk0;
+}Condition<optimize=false>;
+
+typedef struct{
+    int64 conditionOffset;
+    int64 unk;
+    int64 dataPtr;
+    int64 unk;
+    local int64 prePos = FTell();
+    FSeek(conditionOffset + dataPos);
+    Condition condition;
+    FSeek(prePos);
+}StateData2<optimize=false>;
+
+typedef struct{
+    StringOffset StateName;
+    int64 unk;
+    int64 offset;
+    int64 count;
+    local int64 prePos = FTell();
+    FSeek(offset + dataPos);
+    StateData2 stateData[count];
+    FSeek(prePos);
+}StateData<optimize=false>;
+
+typedef struct{
+    StringOffset name;
+    StringOffset name2;
+}UnkStr<optimize=false>;
 
 typedef struct{
     SetRandomBackColor();
-    StringOffset ActionName;
-    uint32 Unk1[2];
-    UnkStr Unk2;
-    uint64 Unk3;
-    UnkStr Unk4;
-    uint64 Unk5;
     StringOffset StateName;
+    StringOffset ActionName;
+    int16 Unk1[4];
+    int64 stateDataOffset;
+    uint64 stateDataCount;
+    uint64 Unkoffset;
+    uint64 Unkcount;
+    local int64 prePos = FTell();
+    FSeek(stateDataOffset + dataPos);
+    StateData stateData[stateDataCount];
+    FSeek(Unkoffset + dataPos);
+    UnkStr unkStr[Unkcount];
+    FSeek(prePos);
 }State<optimize=false, read=Str("%s -- %s",  ReadString(dataPos + ActionName.off), ReadString(dataPos + StateName.off))>;
 
 typedef struct{
     SetRandomBackColor();
-	char signature[4]<name="Signature">;
-	int version <format=hex, name="Version">;
-    uint32 Count;
-    uint32 padding;
-    StringOffset Unk1;
+	int64 tableOffset;
+    uint64 Count;
+    FSeek(tableOffset + dataPos);
     State States[Count];
 }
 ResAIStateMachine<open=true>;

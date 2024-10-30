@@ -1,0 +1,68 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.shader-list
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local uint64 dataPos;
+
+typedef struct{
+    Vector2 unl3;
+    byte flags1[4];
+    Vector2 unl1;
+    Vector2 unl2;
+}VibData<optimize=false>;
+
+typedef struct{
+    int id;
+    int dataCount;
+    int64 dataOffset;
+    local int64 prePos = FTell();
+    FSeek(dataOffset + dataPos);
+    VibData data[dataCount];
+    FSeek(prePos);
+}VibDataOffset<optimize=false>;
+
+typedef struct{
+    StringOffset name;
+    int64 soundChannelID;
+}Sound<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    StringOffset name;
+    byte flags[4];
+    int padding;
+    int64 offsetVibData;
+    int64 offsetSound;
+    int64 offsetUnk;
+    local int64 prePos = FTell();
+    FSeek(offsetVibData + dataPos);
+    VibDataOffset vibData[flags[1]];
+    FSeek(offsetSound + dataPos);
+    Sound sound;
+    FSeek(prePos);
+}Vibration<optimize=false, read=Str("%s - %s", ReadString(name.off + dataPos), ReadString(sound.name.off + dataPos))>;
+
+typedef struct{
+    SetRandomBackColor();
+	char signature[4]<name="Signature">;
+	byte flags[4];
+    int64 count;
+    int64 ptr;
+    FSeek(ptr + dataPos);
+    Vibration vibs[count];
+}
+ResVibration<open=true>;
+
+ResBinaryFile file("ResVibration")<name=Str("%s", FileNameGetBase(GetFileName()))>;

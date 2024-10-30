@@ -114,6 +114,7 @@ typedef struct{
     int64 faceOffset;
     int64 unkOffset;
     int64 tagOffset;
+    local int64 prePos = FTell();
     FSeek(vertexOffset + dataPos);
     Vector3 vertexes[vertexCount];
     FSeek(faceOffset + dataPos);
@@ -122,6 +123,7 @@ typedef struct{
     FaceTag faceTags[tagCount];
     FSeek(unkOffset + dataPos);
     unkStr unk[unk1/16];
+    FSeek(prePos);
 }Mesh<optimize=false>;
 
 typedef struct{

@@ -44,22 +44,30 @@ typedef struct{
 typedef struct{
     SetRandomBackColor();
     StringOffset unkName;
+    byte flags[8];
+    int32 unk;
+}UnkStruct2<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    StringOffset unkName;
     float test[2];
     Matrix4x4 mat;
     bone bones[72];
     boneunk boneunks[323];
-}UnkStruct2<optimize=false>;
+}UnkStruct3<optimize=false>;
 
 typedef struct{
     SetRandomBackColor();
 	char signature[4]<name="Signature">;
 	int version <format=hex, name="Version">;
     StringOffset SkeletonName;
-    uint64 Count;
+    uint32 Count;
+    uint32 Count2;
     uint64 offset;
-    uint64 padding;
-    uint64 Count2;
     uint64 offset2;
+    uint64 Count3;
+    uint64 offset3;
     uint64 padding2;
     FSeek(offset + dataPos);
     UnkStruct unkStructs[Count];
