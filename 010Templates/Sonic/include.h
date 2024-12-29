@@ -69,6 +69,26 @@ void GetStruct (string structName)
 		case "ResVibration":
 			struct ResVibration resVibration <name="ResVibration">;
 			break;
+			
+		case "ResConverse":
+			struct ResConverse resConverse <name="ResConverse">;
+			break;
+
+		case "ResConverseProject":
+			struct ResConverseProject resConverseProject <name="ResConverseProject">;
+			break;
+		
+		case "ResConverseMeta":
+			struct ResConverseMeta resConverseMeta <name="ResConverseMeta">;
+			break;
+
+		case "ResOpticalKerning":
+			struct ResOpticalKerning resOpticalKerning <name="ResOpticalKerning">;
+			break;
+
+		case "ResScalableFontSet":
+			struct ResScalableFontSet resScalableFontSet <name="ResScalableFontSet">;
+			break;
 		
 		default:
 			break;

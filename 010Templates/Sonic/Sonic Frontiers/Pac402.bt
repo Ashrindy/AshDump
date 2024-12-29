@@ -1,0 +1,185 @@
+//------------------------------------------------
+//--- 010 Editor v14.0 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: *.pac
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "../include.h"
+
+local int64 curIndicesPtr = 0;
+local int curIndicesCount = 0;
+
+typedef struct{
+    SetRandomBackColor();
+	int64 pointer;
+	local int64 prePos = FTell();
+	local string finalValue = "";
+	if(pointer != 0){
+		FSeek(pointer);
+		string value;
+		finalValue = value;
+		FSeek(prePos);
+	}
+}OffsetString<read=Str("%s", finalValue), optimize=false>;
+
+typedef struct{
+    local int jumpAmount = 0;
+    while((FTell() + jumpAmount) % 16 != 0){
+        jumpAmount++;
+    }
+    byte jump[jumpAmount];
+}align<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    OffsetString name;
+    int64 data;
+    int64 childIndicesPtr;
+    int parentIndex;
+    int globalIndex;
+    int dataIndex;
+    short childCount;
+    local int64 prePos = FTell();
+    FSeek(childIndicesPtr);
+    int childIndices[childCount];
+    FSeek(prePos);
+    byte hasData;
+    byte bufStartIndex;
+}Node<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int nodeCount;
+    int dataNodeCount;
+    int64 nodesPtr;
+    int64 indicesPtr;
+    local int64 prePos = FTell();
+    FSeek(indicesPtr);
+    curIndicesPtr = FTell();
+    curIndicesCount = dataNodeCount;
+    int indices[dataNodeCount];
+    FSeek(prePos);
+}NodeTree<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    Node node;
+    if(node.hasData != 0){
+        local int64 prePos = FTell();
+        FSeek(node.data);
+        int uid;
+        int dataSize;
+        int64 unk1;
+        int64 dataPtr;
+        if(dataPtr != 0){
+            local int64 prePoss = FTell();
+            FSeek(dataPtr);
+            byte data[dataSize];
+            FSeek(prePoss);
+        }
+        int64 unk3;
+        OffsetString ext;
+        int64 flags;
+        FSeek(prePos);
+    }
+}FileNode<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    NodeTree Tree;
+    local int64 prePos = FTell();
+    FSeek(Tree.nodesPtr);
+    FileNode nodes[Tree.nodeCount];
+    FSeek(prePos);
+}FileTree<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    Node node;
+    if(node.hasData != 0){
+        local int64 prePos = FTell();
+        FSeek(node.data);
+        FileTree treedata;
+        FSeek(prePos);
+    }
+}TypeNode<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    NodeTree Tree;
+    local int64 prePos = FTell();
+    FSeek(Tree.nodesPtr);
+    TypeNode nodes[Tree.nodeCount];
+    FSeek(prePos);
+}TypeTree<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int ptr;
+    int unk;
+}unkDependency<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int compressedSize;
+    int uncompressedSize;
+}chunkInfo<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    OffsetString name;
+    int compressedSize;
+    int uncompressedSize;
+    int dataPos;
+    int chunkCount;
+    int64 offset;
+    local int64 prePos = FTell();
+    FSeek(offset);
+    chunkInfo ChunkInfos[chunkCount];
+    FSeek(prePos);
+}Dependency<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 count;
+    int64 ptr;
+    local int64 prePos = FTell();
+    FSeek(ptr);
+    Dependency deps[count];
+}Dependencies<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    byte signature[4];
+    byte verMajor;
+    byte verMinor;
+    byte verRev;
+    byte endian;
+    uint id;
+    uint fileSize;
+    int treesSize;
+    int depTableSize;
+    int dataEntriesSize;
+    int strTableSize;
+    int fileDataSize;
+    int offTableSize;
+    short type;
+    short flags;
+    int depCount;
+    local int64 prePos = FTell();
+    FSeek(treesSize + 48);
+    if(depCount != 0 && depTableSize != 0){
+        Dependencies depens;
+    }
+    FSeek(prePos);
+    TypeTree typeTree;
+}PacHeader;
+
+PacHeader header;

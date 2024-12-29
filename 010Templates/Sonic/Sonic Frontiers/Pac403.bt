@@ -1,0 +1,88 @@
+//------------------------------------------------
+//--- 010 Editor v14.0 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: *.pac
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "../include.h"
+
+typedef struct{
+    SetRandomBackColor();
+	int64 pointer;
+	local int64 prePos = FTell();
+	local string finalValue = "";
+	if(pointer != 0){
+		FSeek(pointer);
+		string value;
+		finalValue = value;
+		FSeek(prePos);
+	}
+}OffsetString<read=Str("%s", finalValue), optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int compressedSize;
+    int uncompressedSize;
+}chunkInfo<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int offset;
+    int compressedSize;
+    int uncompressedSize;
+    local int64 prePos = FTell();
+    FSeek(offset);
+    byte data[compressedSize];
+    FSeek(prePos);
+}chunk<optimize=false>;
+
+typedef struct{
+    local int jumpAmount = 0;
+    while((FTell() + jumpAmount) % 16 != 0){
+        jumpAmount++;
+    }
+    byte jump[jumpAmount];
+}align<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    byte signature[4];
+    byte verMajor;
+    byte verMinor;
+    byte verRev;
+    byte endian;
+    uint id;
+    uint fileSize;
+    chunk rootChunk;
+    ushort flagV4;
+    ushort flagV3;
+    int parentsSize;
+    int chunkTableSize;
+    int strTableSize;
+    int offTableSize;
+    local int lz4 = 0;
+    if((flagV3 & 512)!=0){
+        lz4 = 1;
+    }
+    if((flagV4 & 2)!=0){    
+        int64 count;
+        int64 ptr;
+        FSeek(ptr);
+        OffsetString parentPaths[count];
+    }
+    int chunkCount;
+    chunkInfo ChunkInfos[chunkCount];
+    align chunkAlign;
+    byte paddingStr[strTableSize];
+    byte paddingOff[offTableSize];
+    align finalAlign;
+}PacHeader;
+
+PacHeader header;

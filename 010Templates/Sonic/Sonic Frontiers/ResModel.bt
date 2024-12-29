@@ -252,7 +252,7 @@ typedef struct{
 	FSeek(unkOffset + RELATIVE_OFFSET);
 	UnkStructOffset offsets[unkCount];
 	FSeek(indiceOffset + RELATIVE_OFFSET);
-	Vector3s faces[indiceCount];
+	Vector3s faces[indiceCount/3];
 	FSeek(vertDataTypeOffset + RELATIVE_OFFSET);
 	local vStruct vstr<hidden=true>;
 	local int64 prePos0<hidden=true> = FTell();
@@ -424,7 +424,7 @@ typedef struct{
 	int meshJump1Count; 
 	int meshJump1; 
 	int padding1[2];
-	BonesMain bonesMain;
+	//BonesMain bonesMain;
 	FSeek(meshJump1 + RELATIVE_OFFSET);
 	int tempThing;
 	FSeek(tempThing + RELATIVE_OFFSET);

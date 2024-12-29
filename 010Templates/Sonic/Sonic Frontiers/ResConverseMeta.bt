@@ -1,0 +1,91 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.cnvrs-meta
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local uint64 dataPos;
+
+typedef struct{
+    SetRandomBackColor();
+    float left, top, right, bottom;
+}Crop<optimize=false, read=Str("%f, %f, %f, %f", top, left, bottom, right)>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 ptr;
+    local int64 prePos = FTell();
+    FSeek(ptr + dataPos);
+    StringOffset iconName;
+    StringOffset imgName;
+    float unk2;
+    float unk3;
+    float unk4;
+    float unk5;
+    Crop crop;
+    int64 texturePtr;
+    int64 somthinPtr;
+    FSeek(prePos);
+}Icon<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 count;
+    int64 ptr;
+    int64 count1;
+    int64 ptr1;
+    FSeek(ptr + dataPos);
+    Icon icons[count];
+    FSeek(ptr1 + dataPos);
+    StringOffset names[count1];
+}Icons;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 ptr;
+    local int64 prePos = FTell();
+    FSeek(ptr + dataPos);
+    int64 parentCount;
+    int64 parentPtr;
+    StringOffset name0;
+    StringOffset name1;
+    float unk4;
+    float unk5;
+    float unk6;
+    float unk7;
+    FSeek(parentPtr + dataPos);
+    StringOffset parents[parentCount];
+    FSeek(prePos);
+}unkStrr<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 count;
+    int64 ptr;
+    FSeek(ptr + dataPos);
+    unkStrr unks[count];
+}unkStr;
+
+typedef struct{
+    SetRandomBackColor();
+	int64 unkCount0;
+    int64 unkPtr0;
+    int64 iconsPtr;
+    FSeek(unkPtr0 + dataPos);
+    unkStr str;
+    FSeek(iconsPtr + dataPos);
+    Icons icons;
+}
+ResConverseMeta<open=true>;
+
+ResBinaryFile file("ResConverseMeta")<name=Str("%s", FileNameGetBase(GetFileName()))>;

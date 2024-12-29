@@ -1,0 +1,122 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.cnvrs-text
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local uint64 dataPos;
+
+typedef struct{
+    char main;
+    char padding<hidden=true>;
+}chartwo<read=main, optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 ptr;
+    local int64 prePos = FTell();
+    FSeek(ptr + dataPos);
+    StringOffset entryName;
+    int64 fontPtr;
+    int64 unkPtr;
+    StringOffset unk1;
+    FSeek(fontPtr + dataPos);
+    StringOffset fontName;
+    StringOffset fontName2;
+    int64 fontDetailsPtr;
+    int64 Ptr2;
+    int64 Ptr3;
+    int64 Ptr4;
+    int64 Ptr5;
+    int64 Ptr6;
+    int64 Ptr7;
+    FSeek(fontDetailsPtr + dataPos);
+    float size;
+    FSeek(unkPtr + dataPos);
+    StringOffset layoutName;
+    int64 unk;
+    StringOffset unk2;
+    StringOffset unk3;
+    StringOffset unk4;
+    StringOffset unk5;
+    StringOffset unk6;
+    StringOffset unk7;
+    FSeek(prePos);
+}Font<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 ptr;
+    int64 textLength;
+    local int64 prePos = FTell();
+    FSeek(ptr + dataPos);
+    chartwo text[textLength];
+    local string mainValue = "";
+    local int i = 0;
+    for(i = 0; i < textLength; i++){
+        mainValue += text[i].main;
+    }
+    FSeek(prePos);
+}EntryText<read=mainValue>;
+
+typedef struct{
+    SetRandomBackColor();
+    StringOffset typeName;
+    int64 unk;
+    StringOffset characterName;
+}Character<optimize=false, read=Str("%s: %s", ReadString(typeName.off + dataPos), ReadString(characterName.off + dataPos))>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 ptr;
+    if(ptr != 0)
+    {
+        local int64 prePos = FTell();
+        FSeek(ptr + dataPos);
+        int64 charAmount;
+        int64 randomPtrs1;
+        int64 randomPtrs2[charAmount];
+        Character characters[charAmount];
+        FSeek(prePos);
+    }
+}Characters<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    local string readText = "";
+    int64 ID;
+    StringOffset key;
+    Font font;
+    EntryText text;
+    Characters chars;
+    if(chars.ptr != 0){
+        local int i = 0;
+        for(i = 0; i < chars.charAmount; i++){
+            readText += ReadString(chars.characters[i].typeName.off + dataPos) + ": " + ReadString(chars.characters[i].characterName.off + dataPos) + ", ";
+        }
+    }
+}Entry<optimize=false, read=Str("%s- %s", readText, text.mainValue)>;
+
+typedef struct{
+    SetRandomBackColor();
+	byte unk0;
+    byte unk1;
+    short amount;
+    int padding[3];
+    StringOffset language;
+    int64 padding1;
+    Entry entries[amount];
+}
+ResConverse<open=true>;
+
+ResBinaryFile file("ResConverse")<name=Str("%s", FileNameGetBase(GetFileName()))>;

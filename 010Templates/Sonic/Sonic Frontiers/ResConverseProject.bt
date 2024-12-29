@@ -1,0 +1,132 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.cnvrs-proj
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local uint64 dataPos;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 ptr;
+    local int64 prePos = FTell();
+    FSeek(ptr + dataPos);
+    StringOffset fontName;
+    StringOffset fontResourceName;
+    int64 unk0;
+    int64 unk1;
+    int64 unk2;
+    int64 unk3;
+    int64 unk4;
+    int64 unk5;
+    int64 unk6;
+    int64 unk7;
+    int64 unk8;
+    int64 unk9;
+    int64 unk10;
+    int64 unk11;
+    int64 unk12;
+    FSeek(prePos);
+}item<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 ptr;
+    local int64 prePos = FTell();
+    FSeek(ptr + dataPos);
+    StringOffset langname;
+    int64 unkCount;
+    int64 unkPtr;
+    FSeek(unkPtr + dataPos);
+    item items[unkCount];
+    FSeek(prePos);
+}unkDatasItem<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 unkCount;
+    int64 unkPtr0;
+    int64 unkPtr1;
+    FSeek(unkPtr0 + dataPos);
+    unkDatasItem items[unkCount];
+    FSeek(unkPtr1 + dataPos);
+    unkDatasItem items[unkCount];
+}unkDatas;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 ptr;
+    local int64 prePos = FTell();
+    FSeek(ptr + dataPos);
+    StringOffset name;
+    StringOffset name1;
+    int64 id;
+    int64 unk1;
+    FSeek(prePos);
+}Language<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 languageCount;
+    int64 languagePtr;
+    local int64 prePos = FTell();
+    FSeek(languagePtr + dataPos);
+    Language langs[languageCount];
+    FSeek(prePos);
+}Languages<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 ptr;
+    local int64 prePos = FTell();
+    FSeek(ptr + dataPos);
+    StringOffset name;
+    ColorRGBA color;
+    int unk0;
+    int64 unk1;
+    FSeek(prePos);
+}ColorStruct<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 colorCount;
+    int64 colorPtr;
+    local int64 prePos = FTell();
+    FSeek(colorPtr + dataPos);
+    ColorStruct colors[colorCount];
+    FSeek(prePos);
+}Colors<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    int64 colorPtr;
+    int64 langPtr;
+    FSeek(colorPtr + dataPos);
+    Colors colors;
+    FSeek(langPtr + dataPos);
+    Languages langs;
+}unkData<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+	int64 unkCount0;
+    int64 unkPtr0;
+    int64 unkPtr1;
+    FSeek(unkPtr0 + dataPos);
+    unkData unk;
+    FSeek(unkPtr1 + dataPos);
+    unkDatas unks;
+}
+ResConverseProject<open=true>;
+
+ResBinaryFile file("ResConverseProject")<name=Str("%s", FileNameGetBase(GetFileName()))>;

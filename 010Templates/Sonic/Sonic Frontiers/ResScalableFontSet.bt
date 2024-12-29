@@ -1,0 +1,51 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: 
+//   Authors: Ashrindy
+//   Version: 0.1.0
+//   Purpose: 
+//  Category: 
+// File Mask: *.scfnt
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+#include "../include.h"
+
+local uint64 dataPos;
+
+typedef struct{
+    SetRandomBackColor();
+    wchar_t unicodeLetter;
+    char unk0;
+    char unk1;
+    int padding;
+}Letter<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+    wchar_t letter;
+    int16 count;
+    int padding;
+    int64 dataPtr;
+    local int64 prePos = FTell();
+    FSeek(dataPtr + dataPos);
+    Letter letters[count];
+    FSeek(prePos);
+}UnkData<optimize=false>;
+
+typedef struct{
+    SetRandomBackColor();
+	char signature[8];
+    StringOffset fontName;
+    int64 dataPtr0;
+    int64 dataPtr1;
+    int64 dataPtr2;
+    char ttfData[dataPtr2];
+    UnkData unkDatas[dataPtr1];
+}
+ResScalableFontSet<open=true>;
+
+ResBinaryFile file("ResScalableFontSet")<name=Str("%s", FileNameGetBase(GetFileName()))>;

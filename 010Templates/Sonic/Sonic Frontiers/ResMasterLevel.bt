@@ -20,9 +20,19 @@ typedef struct{
     uint64 offset2;
     local uint64 prePos2<hidden=true> = FTell();
     FSeek(offset2 + dataPos);
+    StringOffset fileName;
+    StringOffset fileName;
+    int unk;
+    FSeek(prePos2);
+}File<optimize=false, read=ReadString(dataPos + fileName.off)>;
+
+typedef struct{
+    uint64 offset2;
+    local uint64 prePos2<hidden=true> = FTell();
+    FSeek(offset2 + dataPos);
     StringOffset dependencyName;
     FSeek(prePos2);
-}Item<optimize=false, read=ReadString(dataPos + dependencyName.off)>;
+}Depend<optimize=false, read=ReadString(dataPos + dependencyName.off)>;
 
 typedef struct{
     SetRandomBackColor();
@@ -40,12 +50,12 @@ typedef struct{
 
     if(dependencyCount != 0){
         FSeek(dependencyOffset + dataPos);
-        Item dependencies[dependencyCount];
+        Depend dependencies[dependencyCount];
     }
 
     if(fileCount != 0){
         FSeek(filesOffset + dataPos);
-        Item files[fileCount];
+        File files[fileCount];
     }
 
     FSeek(prePos);
