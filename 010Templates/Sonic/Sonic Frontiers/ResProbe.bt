@@ -24,7 +24,8 @@ unkStr<optimize=false>;
 
 typedef struct{
     SetRandomBackColor();
-    unkStr unk1[5];
+    Matrix44 matrix;
+    unkStr unk1;
     StringOffset Name;
     int unk3[8];
 }
