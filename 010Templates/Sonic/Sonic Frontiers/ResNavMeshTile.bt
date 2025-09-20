@@ -11,26 +11,82 @@
 //   History: 
 //------------------------------------------------
 
-
-#include "../include.h"
+typedef struct{
+    float x, y, z;
+}Vector3<read=Str("%f, %f, %f", x,y,z)>;
 
 typedef struct{
-    SetRandomBackColor();
+	unsigned int vertBase;
+	unsigned int triBase;
+	unsigned char vertCount;
+	unsigned char triCount;
+    char padding[2]<hidden=true>;
+}dtPolyDetail;
+
+typedef struct{
+    char vertA, vertB, vertC, triFlags;
+}dtTriDetail;
+
+typedef struct{
+	unsigned short bmin[3];
+    unsigned short bmax[3];
+    int i;
+}bvNode;
+
+typedef struct{
+    int64 ref;
+    unsigned char edge;
+    unsigned char side;
+    unsigned char bmin, bmax;
+    int next;
+}dtLink<optimize=false>;
+
+typedef struct{
+    unsigned int firstLink;
+    unsigned short verts[6];
+    unsigned short neis[6];
+    unsigned short flags;
+    unsigned char vertCount;
+    unsigned char areaAndtype;
+}dtPoly<optimize=false>;
+
+typedef struct{
+    int dataSignature;
+    int dataVersion;
+    uint32 position[2];
+    int layer;
+    int userId;
+    int polyCount;
+    int vertCount;
+    int maxLinkCount;
+    int detailMeshCount;
+    int detailVertCount;
+    int detailTriCount;
+    int bvNodeCount;
+    int offMeshConCount;
+    int offMeshBase;
+    float walkableHeight;       
+    float walkableRadius;       
+    float walkableClimb;        
+    Vector3 bmin;              
+    Vector3 bmax;
+    float bvQuantFactor;
+    Vector3 vertices[vertCount];
+    dtPoly polys[polyCount];
+    dtLink links[maxLinkCount];
+    dtPolyDetail polyDetails[detailMeshCount];
+    Vector3 detailVerts[detailVertCount];
+    dtTriDetail detailTris[detailTriCount];
+    bvNode bvNodes[bvNodeCount];
+}dtMeshTile; //source: https://recastnav.com/DetourNavMesh_8h_source.html - dtMeshTile
+
+typedef struct{
 	char signature[4]<name="Signature">;
 	int version <format=hex, name="Version">;
-    Vector2 Position;
-    uint32 padding;
-    uint32 Unk1;
-    float Unk2;
-    uint32 Unk3[6];
-    uint32 Count;
-    uint32 Unk4[7];
-    Vector3 UnkVec;
-    Vector3 Points[2];
-    float Unk5;
-    Vector3 Points2[Count];
-    int test[Unk4[1]];
-    byte test1[Unk4[0]];
+    int Position[2];
+    uint32 unk0;
+    uint32 vandSize;
+    dtMeshTile tile;
 }
 ResNavMeshConfig<open=true>;
 

@@ -6,7 +6,7 @@
 //   Version: 0.1.0
 //   Purpose: 
 //  Category: 
-// File Mask: *.model
+// File Mask: *.terrain-model
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
@@ -20,7 +20,6 @@ local int32 TEXTURE_COUNT = 0;
 local int32 VARIABLE_COUNT = 0;
 local int32 TEXSET_POINTER = 0;
 local int32 TEXTURES_POINTER = 0;
-local int32 BONE_COUNT = 0;
 
 local int offsetEnabled[11];
 
@@ -205,27 +204,6 @@ typedef struct{
 
 typedef struct{
 	SetRandomBackColor();
-	if(wBoneSize == 1){
-		byte data;
-	} 
-	else{
-		short data;
-	}
-}Bone<optimize=false>;
-
-typedef struct{
-	SetRandomBackColor();
-	local int temp = FTell();
-	FSeek(curVertChunkOffset + w * curVertSize + wBoneOffset + RELATIVE_OFFSET);
-	Bone bones[wBoneCount];
-	FSeek(curVertChunkOffset + w * curVertSize + wWeightOffset + RELATIVE_OFFSET);
-	byte weight[wBoneCount];
-	w++;
-	FSeek(temp);
-}Bones<optimize=false>;
-
-typedef struct{
-	SetRandomBackColor();
 	int meshHeader;
 	local int prePos = FTell();
 	FSeek(meshHeader + RELATIVE_OFFSET);
@@ -238,17 +216,8 @@ typedef struct{
 	int vertChunkOffset;
 	curVertChunkOffset = vertChunkOffset;
 	int vertDataTypeOffset;
-	int boneRefCount;
-	int boneRefOffset;
 	int unkCount;
 	int unkOffset;
-	FSeek(boneRefOffset + RELATIVE_OFFSET);
-	if(BONE_COUNT <= 255){
-		byte boneRefs[boneRefCount];
-	}
-	else{
-		short boneRefs[boneRefCount];
-	}
 	FSeek(unkOffset + RELATIVE_OFFSET);
 	UnkStructOffset offsets[unkCount];
 	FSeek(indiceOffset + RELATIVE_OFFSET);
@@ -319,35 +288,6 @@ typedef struct{
 			break;
 		}
 	}
-	for(j = 0; j < x; j++){
-		if(vstrArray[j].vTypeIndex == 0x20000){
-			wBoneOffset = vstrArray[j].vTypeOffset;
-			wBoneType = vstrArray[j].vTypeFormat;
-			offsetEnabled[7] = 1;
-			break;
-		}
-	}
-	for(j = 0; j < x; j++){
-		if(vstrArray[j].vTypeIndex == 0x20100){
-			wBone2Offset = vstrArray[j].vTypeOffset;
-			offsetEnabled[8] = 1;
-			break;
-		}
-	}
-	for(j = 0; j < x; j++){
-		if(vstrArray[j].vTypeIndex == 0x10000){
-			wWeightOffset = vstrArray[j].vTypeOffset;
-			offsetEnabled[9] = 1;
-			break;
-		}
-	}
-	for(j = 0; j < x; j++){
-		if(vstrArray[j].vTypeIndex == 0x10100){
-			wWeight2Offset = vstrArray[j].vTypeOffset;
-			offsetEnabled[10] = 1;
-			break;
-		}
-	}
 	if(offsetEnabled[0] == 1){
 		w = 0;
 		Vertices vertices[vertCount];
@@ -376,43 +316,8 @@ typedef struct{
 		w = 0;
 		Colors colors[vertCount];
 	}
-	if(offsetEnabled[7] == 1 && offsetEnabled[9] == 1){
-		if(wBoneType == 0x1A225A){
-			wBoneSize = 2;
-		}
-		if(offsetEnabled[8] == 1){
-			wBoneCount = 8;
-		}
-		w = 0;
-		Bones bones[vertCount];
-	}
 	FSeek(prePos);
 }Mesh<optimize=false>;
-
-typedef struct{
-	SetRandomBackColor();
-	int offset;
-	local int64 prePos = FTell();
-	FSeek(offset + RELATIVE_OFFSET);
-	int parentid;
-	StringOffsetMirage name;
-	FSeek(prePos);
-}BoneMain<optimize=false>;
-
-typedef struct{
-	SetRandomBackColor();
-	int boneCount;
-	BONE_COUNT = boneCount;
-	int mainOffset;
-	int matOffset;
-	int unkOffset;
-	local int64 prePos = FTell();
-	FSeek(mainOffset + RELATIVE_OFFSET);
-	BoneMain bones[boneCount];
-	FSeek(matOffset + RELATIVE_OFFSET);
-	Matrix4x4 mats[boneCount];
-	FSeek(prePos);
-}BonesMain<optimize=false>;
 
 typedef struct{
     SetRandomBackColor();
@@ -424,7 +329,6 @@ typedef struct{
 	int meshJump1Count; 
 	int meshJump1; 
 	int padding1[2];
-	BonesMain bonesMain;
 	FSeek(meshJump1 + RELATIVE_OFFSET);
 	int tempThing;
 	FSeek(tempThing + RELATIVE_OFFSET);

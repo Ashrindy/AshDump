@@ -17,6 +17,22 @@
 local uint64 dataPos;
 
 typedef struct{
+    int64 positionCount;
+    int64 positionFramesOffset;
+    int64 positionValuesOffset;
+    int64 rotationCount;
+    int64 rotationFramesOffset;
+    int64 rotationValuesOffset;
+}Motion<optimize=false>;
+
+typedef struct{
+    Motion mot;
+    int64 scaleCount;
+    int64 scaleFramesOffset;
+    int64 scaleValuesOffset;
+}RootMotion<optimize=false>;
+
+typedef struct{
     SetRandomBackColor();
 	char signature[4]<name="Signature">;
 	int version <format=hex, name="Version">;
@@ -30,15 +46,21 @@ typedef struct{
     int64 mainOffset;
     int64 rootOffset;
 
-    FSeek(mainOffset + dataPos);
-    int dataLength;
-    FSeek(mainOffset + dataPos);
-    byte data[dataLength];
-    if(rootOffset != 0){
-        FSeek(rootOffset + dataPos);
-        int rootDataLength;
-        FSeek(rootOffset + dataPos);
-        byte rootData[rootDataLength];
+    if(compressed == 8) {
+        FSeek(mainOffset + dataPos);
+        int dataLength;
+        FSeek(mainOffset + dataPos);
+        byte data[dataLength];
+        if(rootOffset != 0){
+            FSeek(rootOffset + dataPos);
+            int rootDataLength;
+            FSeek(rootOffset + dataPos);
+            byte rootData[rootDataLength];
+        }
+    }
+    else {
+        Motion mainMotions[trackCount];
+        RootMotion rootMotion; 
     }
 }
 ResAnimationPxd<open=true>;

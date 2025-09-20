@@ -18,10 +18,10 @@ local uint64 dataPos;
 
 typedef struct{
     SetRandomBackColor();
-    StringOffset test;
-    uint32 unk1;
-    uint32 unk2;
-}DensityStr<optimize=false, read=Str("%s",  ReadString(dataPos + test.off))>;
+    StringOffset name;
+    uint32 flags;
+	uint32 align<hidden=true>;
+}Model<optimize=false, read=Str("%s",  ReadString(dataPos + name.off))>;
 
 typedef struct{
     SetRandomBackColor();
@@ -31,44 +31,51 @@ typedef struct{
 
 typedef struct{
     SetRandomBackColor();
-    short data[4];
-    uint32 data1[4];
-    uint32 data2[2];
-    float data3[7];
-    short data4[2];
-}UnkData<optimize=false>;
+    int footPoint;
+	int flags;
+	int lodGroupReferenceOffset;
+	int lodGroupReferenceCount;
+	int collisionDataIndex1;
+	int collisionDataIndex2;
+	int shadowLodGroupReferenceOffset;
+	int shadowLodGroupReferenceCount;
+	float angle;
+	Vector3 offset;
+	Vector3 aabb;
+	int id;
+}LodGroup<optimize=false>;
 
 typedef struct{
     SetRandomBackColor();
-    uint32 ModelIndex;
-    float FadeOut;
-    uint32 data2;
-    uint32 data3;
-}LODInfo<optimize=false>;
+    int index;
+	float length;
+	int flags;
+	int padding1;
+}LodGroupReference<optimize=false>;
 
 typedef struct{
     SetRandomBackColor();
-    uint32 data;
-    uint32 modelIndex;
-    uint32 data2;
-    uint32 data3;
-}AreaMapInfo<optimize=false>;
+    uint32 flags;
+    uint32 biomeReferenceOffset;
+    uint32 biomeReferenceCount;
+    uint32 minBiomeReferenceOffset;
+}Biome<optimize=false>;
 
 typedef struct{
     SetRandomBackColor();
-    uint32 data;
-    uint16 data1;
-    uint16 data1a;
-    uint32 data2;
-    uint32 data3;
-    float data4;
-    float data5;
-    float data6;
-    uint64 test;
-    uint32 data9;
-    uint32 data10;
-    uint32 data11;
-}UnkData4<optimize=false>;
+    int index;
+	int flags;
+	int probability;
+	int copyFootPoint;
+	float scaleMin;
+	float scaleMax;
+	int hsvPh;
+	int hsvSv;
+	int upper;
+	int padding1;
+	int padding2;
+	int padding3;
+}BiomeReference<optimize=false>;
 
 typedef struct{
     SetRandomBackColor();
@@ -81,52 +88,49 @@ typedef struct{
 
 typedef struct{
     SetRandomBackColor();
-    float data[2];
-    uint32 data1[4];
-    float data2[2];
-    uint32 data3[2];
-    float data4;
-    float data5;
-    float data6[2];
-    ushort data7[4];
-    int32 data8;
-}UnkData6<optimize=false>;
-
-typedef struct{
-    SetRandomBackColor();
-    StringOffset name;
-}CollisionItem<optimize=false, read=Str("%s",  ReadString(dataPos + name.off))>;
+    Vector3 offset;
+	Vector4 rotation;
+	float radius;
+	int hitFlags;
+	int attri;
+	float param[4];
+	char idUpperType;
+	char idUpperUnk1;
+	short idUpperUnk2;
+	int idLower;
+	int soundEffectIndex;
+}CollisionData<optimize=false>;
 
 typedef struct{
     SetRandomBackColor();
 	char signature[4]<name="Signature">;
 	int version <format=hex, name="Version">;
     Vector2 WorldSize;
-    uint32 padding;
-    uint32 Count;
-    uint32 padding2[32];
-    float padding3[32];
-    StringOffset AreaMap;
-    StringOffset LayerMap;
-    StringOffset ColorMap;
-    StringOffset ScaleMap;
+    uint32 unk0;
+    uint32 count0;
+    uint32 lodUnks[32];
+    float lodRanges[32];
+    StringOffset areaMap;
+    StringOffset layerMap;
+    StringOffset colorMap;
+    StringOffset scaleMap;
     Info OffsetInfo[15];
     FSeek(OffsetInfo[0].StartOffset + dataPos);
-    DensityStr Density[OffsetInfo[0].Amount];
+    Model models[OffsetInfo[0].Amount];
     FSeek(OffsetInfo[1].StartOffset + dataPos);
-    UnkData IDInfo[OffsetInfo[1].Amount];
+    LodGroup lodGroups[OffsetInfo[1].Amount];
     FSeek(OffsetInfo[2].StartOffset + dataPos);
-    LODInfo LODData[OffsetInfo[2].Amount];
+    LodGroupReference lodGroudReferences[OffsetInfo[2].Amount];
     FSeek(OffsetInfo[3].StartOffset + dataPos);
-    AreaMapInfo AreaInfo[OffsetInfo[3].Amount];
+    Biome biomes[OffsetInfo[3].Amount];
     FSeek(OffsetInfo[4].StartOffset + dataPos);
-    UnkData4 Unk6[OffsetInfo[4].Amount];
+    BiomeReference biomeReferences[OffsetInfo[4].Amount];
     FSeek(OffsetInfo[5].StartOffset + dataPos);
     IDItem IDList[OffsetInfo[5].Amount];
     FSeek(OffsetInfo[6].StartOffset + dataPos);
-    UnkData6 Unk7[OffsetInfo[6].Amount];
+    CollisionData collisionDatas[OffsetInfo[6].Amount];
     FSeek(OffsetInfo[7].StartOffset + dataPos);
-    CollisionItem CollisionData[OffsetInfo[7].Amount];
+    StringOffset collisionResources[OffsetInfo[7].Amount];
     FSeek(OffsetInfo[8].StartOffset + dataPos);
     uint32 Unk8[OffsetInfo[8].Amount];
     FSeek(OffsetInfo[13].StartOffset + dataPos);
